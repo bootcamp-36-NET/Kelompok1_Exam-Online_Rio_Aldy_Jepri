@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ExamOnline.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace ExamOnline.Base
         public async Task<IEnumerable<TEntity>> GetAll() => await _repo.GetAll();
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<TEntity>> GetById(int Id) => await _repo.GetById(Id);
+        public async Task<ActionResult<TEntity>> GetById(string Id) => await _repo.GetById(Id);
 
         [HttpPost]
         public async Task<ActionResult<TEntity>> Post(TEntity entity)
@@ -38,7 +39,7 @@ namespace ExamOnline.Base
         }
 
         [HttpDelete("{Id}")]
-        public async Task<ActionResult<int>> Delete(int Id)
+        public async Task<ActionResult<int>> Delete(string Id)
         {
             var deleted = await _repo.Delete(Id);
             if (deleted.Equals(null))
@@ -47,11 +48,5 @@ namespace ExamOnline.Base
             }
             return deleted;
         }
-        //public async Task<ActionResult<int>> Update (TEntity entity)
-        //{
-        //    var updated = await _repo.Update(entity);
-        //    return Ok();
-        //}
     }
-}
 }

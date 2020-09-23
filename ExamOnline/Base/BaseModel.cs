@@ -7,11 +7,7 @@ namespace ExamOnline.Base
 {
     public interface BaseModel
     {
-        int Id { get; set; }
-        string Name { get; set; }
-        DateTimeOffset CreateDate { get; set; }
-        DateTimeOffset DeleteDate { get; set; }
-        DateTimeOffset UpdateDate { get; set; }
+        string Id { get; set; }
         bool isDelete { get; set; }
     }
 }

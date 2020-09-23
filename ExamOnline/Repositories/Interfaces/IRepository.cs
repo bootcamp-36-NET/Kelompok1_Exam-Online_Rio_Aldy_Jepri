@@ -8,9 +8,9 @@ namespace ExamOnline.Repositories.Interfaces
     public interface IRepository<T> where T : class
     {
         Task<List<T>> GetAll();
-        Task<T> GetById(int Id);
+        Task<T> GetById(string Id);
         Task<int> Create(T entity);
         Task<int> Update(T entity);
-        Task<int> Delete(int Id);
+        Task<int> Delete(string Id);
     }
 }
