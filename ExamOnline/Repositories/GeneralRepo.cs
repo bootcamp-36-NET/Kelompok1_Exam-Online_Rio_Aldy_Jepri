@@ -50,9 +50,9 @@ namespace ExamOnline.Repositories
             return null;
         }
 
-        public async Task<TEntity> GetById(string Id)
+        public virtual async Task<TEntity> GetById(string Id)
         {
-            var item = await _context.Set<TEntity>().SingleOrDefaultAsync(x=> x.Id == Id || x.isDelete == false);
+            var item = await _context.Set<TEntity>().SingleOrDefaultAsync(x=> x.Id == Id && x.isDelete == false);
             if (item == null)
             {
                 return null;
