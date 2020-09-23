@@ -1,4 +1,8 @@
-﻿using System;
+﻿using ExamOnline.Base;
+using ExamOnline.Context;
+using ExamOnline.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +15,7 @@ namespace ExamOnline.Repositories
     {
         private MyContext _context;
 
-        public GeneralRepository(MyContext context)
+        public GeneralRepo(MyContext context)
         {
             _context = context;
         }
@@ -60,7 +64,7 @@ namespace ExamOnline.Repositories
 
         public async Task<int> Update(TEntity entity)
         {
-            entity.updateDate = DateTimeOffset.Now;
+            entity.UpdateDate = DateTimeOffset.Now;
             _context.Entry(entity).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }

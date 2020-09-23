@@ -9,5 +9,8 @@ namespace ExamOnline.Context
     public class MyContext : DbContext
     {
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
+        //public DbSet<Question> Question { get; set; }
+        //public DbSet<Answer> Answer { get; set; }
+
     }
 }
