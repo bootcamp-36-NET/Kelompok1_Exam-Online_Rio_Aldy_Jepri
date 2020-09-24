@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ExamOnline.Base;
+using ExamOnline.Context;
 using ExamOnline.Models;
 using ExamOnline.Repositories.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExamOnline.Controllers
 {
@@ -15,8 +17,10 @@ namespace ExamOnline.Controllers
     public class AnswersController : BaseController<Answer, AnswerRepo>
     {
         readonly AnswerRepo _answerRepo;
-        public AnswersController(AnswerRepo answerRepo) : base(answerRepo)
+        readonly MyContext _context;
+        public AnswersController(MyContext context,AnswerRepo answerRepo) : base(answerRepo)
         {
+            _context = context;
             _answerRepo = answerRepo;
         }
 
@@ -27,12 +31,22 @@ namespace ExamOnline.Controllers
             getId.Answers = entity.Answers;
             getId.QuestionId = entity.QuestionId;
             getId.Status = entity.Status;
+            SetStatus();
             var data = await _answerRepo.Update(getId);
             if (data.Equals(null))
             {
                 return BadRequest("Something Wrong! Please check again");
             }
             return data;
+        }
+
+        public void SetStatus()
+        {
+            var getSts = _context.Answer.Include("Question").FirstOrDefault(x => x.Answers != null);
+            if (getSts.Question.Key == getSts.Answers)
+            {
+                getSts.Status = true;
+            }
         }
     }
 }

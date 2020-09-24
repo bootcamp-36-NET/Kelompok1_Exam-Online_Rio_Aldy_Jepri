@@ -1,17 +1,12 @@
-﻿using ExamOnline.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ExamOnline.Models
+namespace ExamOnline.ViewModels
 {
-    [Table("tb_m_question")]
-    public class Question : BaseModel
+    public class QuestionVM
     {
-        [Key]
         public string Id { get; set; }
         public string Questions { get; set; }
         public string OptionA { get; set; }
@@ -21,8 +16,6 @@ namespace ExamOnline.Models
         public string OptionE { get; set; }
         public string Key { get; set; }
         public bool isDelete { get; set; }
-        [ForeignKey("Subjects")]
         public string SubjectId { get; set; }
-        public Subjects Subjects { get; set; }
     }
 }
