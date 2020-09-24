@@ -14,21 +14,14 @@ namespace ExamOnline.Models
         [Key]
         public string Id { get; set; }
 
-<<<<<<< HEAD
-=======
         [ForeignKey ("Question")]
->>>>>>> Jepri
         public string QuestionId { get; set; }
         public Question Question { get; set; }
-
         public string Answers { get; set; }
         public bool Status { get; set; }
         public bool isDelete { get; set; }
-<<<<<<< HEAD
-=======
-
+        [ForeignKey("Examination")]
         public string ExamId { get; set; }
         public Examination Examination { get; set; }
->>>>>>> Jepri
     }
 }

@@ -25,12 +25,6 @@ namespace ExamOnline.Controllers
         {
             var getId = await _questionRepo.GetById(id);
             getId.Questions = entity.Questions;
-<<<<<<< HEAD
-            var data = await _questionRepo.Update(getId);
-            if (data.Equals(null))
-            {
-                return 404;
-=======
             getId.OptionA = entity.OptionA;
             getId.OptionB = entity.OptionB;
             getId.OptionC = entity.OptionC;
@@ -42,7 +36,6 @@ namespace ExamOnline.Controllers
             if (data.Equals(null))
             {
                 return BadRequest("Update Failed");
->>>>>>> Jepri
             }
             return data;
         }
