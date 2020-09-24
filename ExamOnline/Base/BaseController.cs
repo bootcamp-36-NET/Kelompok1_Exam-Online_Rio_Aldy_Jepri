@@ -25,7 +25,7 @@ namespace ExamOnline.Base
         public async Task<IEnumerable<TEntity>> GetAll() => await _repo.GetAll();
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<TEntity>> GetById(string Id) => await _repo.GetById(Id);
+        public async virtual Task<ActionResult<TEntity>> GetById(string Id) => await _repo.GetById(Id);
 
         [HttpPost]
         public async Task<ActionResult<TEntity>> Post(TEntity entity)

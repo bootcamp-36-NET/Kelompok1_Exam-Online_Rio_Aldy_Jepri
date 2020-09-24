@@ -11,7 +11,11 @@ namespace ExamOnline.Models
     public class EventDetails : BaseModel
     {
         public string Id { get; set; }
+
+        [ForeignKey("EventsId")]
+        public string eventsId { set; get; }
         public virtual Events events { set; get; }
+        public string EmployeeId { set; get; }
         public bool isDelete { get; set; }
     }
 }

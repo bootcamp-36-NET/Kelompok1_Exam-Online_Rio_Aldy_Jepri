@@ -12,28 +12,27 @@ namespace ExamOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : BaseController<Events, EventsRepo>
+    public class SubjectsController : BaseController<Subjects, SubjectsRepo>
     {
-        private EventsRepo _repo;
+        private SubjectsRepo _repo;
 
-        public EventsController(EventsRepo eventsRepo) : base (eventsRepo)
+        public SubjectsController(SubjectsRepo repo) : base (repo)
         {
-            this._repo = eventsRepo;
+            _repo = repo;
         }
 
         [HttpPut("{Id}")]
-        public async Task<ActionResult> Update (string Id, Events events)
+        public async Task<ActionResult> Update (string Id, Subjects subjects)
         {
-            Events item = await _repo.GetById(Id);
-            item.Name = events.Name;
-            int updatedItem = await _repo.Update(item);
-            
+            Subjects subjects1 = await _repo.GetById(Id);
+            subjects1.Name = subjects.Name;
+            int updatedItem = await _repo.Update(subjects1);
+
             if(updatedItem > 0)
             {
                 return Ok("Data is updated");
             }
             return BadRequest("Update data is failed");
-
         }
     }
 }
