@@ -35,6 +35,7 @@ namespace ExamOnline
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
            services.AddScoped<QuestionRepo>();
+           services.AddScoped<AnswerRepo>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

@@ -21,5 +21,11 @@ namespace ExamOnline.Models
         public string OptionE { get; set; }
         public string Key { get; set; }
         public bool isDelete { get; set; }
+<<<<<<< HEAD
+=======
+
+        public string SubjectId { get; set; }
+        public Subjects Subjects { get; set; }
+>>>>>>> Jepri
     }
 }
