@@ -21,5 +21,8 @@ namespace ExamOnline.Models
         public string Answers { get; set; }
         public bool Status { get; set; }
         public bool isDelete { get; set; }
+
+        public string ExamId { get; set; }
+        public Examination Examination { get; set; }
     }
 }

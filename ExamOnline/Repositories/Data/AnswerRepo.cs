@@ -1,6 +1,6 @@
 ﻿using ExamOnline.Context;
 using ExamOnline.Models;
-using ExamOnline.ViewModel;
+using ExamOnline.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
