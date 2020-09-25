@@ -36,7 +36,6 @@ namespace ExamOnline
 
            services.AddScoped<QuestionRepo>();
            services.AddScoped<AnswerRepo>();
-           services.AddScoped<ExaminationRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -75,6 +74,7 @@ namespace ExamOnline
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseAuthentication();
         }
     }
 }
