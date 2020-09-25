@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamOnline.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200925065702_RioAddIitTabel")]
-    partial class RioAddIitTabel
+    [Migration("20200925075353_JepriExamedit")]
+    partial class JepriExamedit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,8 @@ namespace ExamOnline.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EmployeeId");
 
                     b.Property<string>("eventsId");
 
@@ -88,7 +90,7 @@ namespace ExamOnline.Migrations
 
                     b.Property<string>("EmployeeId");
 
-                    b.Property<DateTimeOffset>("RescheduleDate");
+                    b.Property<DateTimeOffset?>("RescheduleDate");
 
                     b.Property<int>("Score");
 
@@ -97,6 +99,8 @@ namespace ExamOnline.Migrations
                     b.Property<bool>("isDelete");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("tb_t_examination");
                 });
@@ -161,6 +165,13 @@ namespace ExamOnline.Migrations
                     b.HasOne("ExamOnline.Models.Events", "events")
                         .WithMany()
                         .HasForeignKey("eventsId");
+                });
+
+            modelBuilder.Entity("ExamOnline.Models.Examination", b =>
+                {
+                    b.HasOne("ExamOnline.Models.Subjects", "Subjects")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
                 });
 
             modelBuilder.Entity("ExamOnline.Models.Question", b =>

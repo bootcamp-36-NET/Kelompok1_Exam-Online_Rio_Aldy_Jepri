@@ -14,10 +14,13 @@ namespace ExamOnline.Models
         [Key]
         public string Id { get; set; }
         public bool isDelete { get; set; }
-        public string EmployeeId { get; set; }
-        public string SubjectId { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
-        public DateTimeOffset RescheduleDate { get; set; }
+        public DateTimeOffset? RescheduleDate { get; set; }
         public int Score { get; set; }
+
+        public string EmployeeId { get; set; }
+        [ForeignKey("Subjects")]
+        public string SubjectId { get; set; }
+        public Subjects Subjects { get; set; }
     }
 }
