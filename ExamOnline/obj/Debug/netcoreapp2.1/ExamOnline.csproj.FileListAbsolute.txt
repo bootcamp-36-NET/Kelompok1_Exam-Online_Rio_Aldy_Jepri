@@ -11,3 +11,17 @@ C:\Users\Jepri\Documents\Visual Studio 2017\Projects\ExamOnline\ExamOnline\obj\D
 C:\Users\Jepri\Documents\Visual Studio 2017\Projects\ExamOnline\ExamOnline\bin\Debug\netcoreapp2.1\ExamOnline.pdb
 C:\Users\Jepri\Documents\Visual Studio 2017\Projects\ExamOnline\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.dll
 C:\Users\Jepri\Documents\Visual Studio 2017\Projects\ExamOnline\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.pdb
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\bin\Debug\netcoreapp2.1\ExamOnline.deps.json
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\bin\Debug\netcoreapp2.1\ExamOnline.runtimeconfig.json
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\bin\Debug\netcoreapp2.1\ExamOnline.runtimeconfig.dev.json
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\bin\Debug\netcoreapp2.1\ExamOnline.dll
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\bin\Debug\netcoreapp2.1\ExamOnline.pdb
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.csprojAssemblyReference.cache
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.csproj.CoreCompileInputs.cache
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.RazorAssemblyInfo.cache
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.RazorAssemblyInfo.cs
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.AssemblyInfoInputs.cache
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.AssemblyInfo.cs
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.RazorTargetAssemblyInfo.cache
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.dll
+E:\Rio\Online Examination\Kelompok1_Exam-Online_Rio_Aldy_Jepri\ExamOnline\obj\Debug\netcoreapp2.1\ExamOnline.pdb
