@@ -4,14 +4,16 @@ using ExamOnline.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExamOnline.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20200925065702_RioAddIitTabel")]
+    partial class RioAddIitTabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,8 +98,6 @@ namespace ExamOnline.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
-
                     b.ToTable("tb_t_examination");
                 });
 
@@ -161,13 +161,6 @@ namespace ExamOnline.Migrations
                     b.HasOne("ExamOnline.Models.Events", "events")
                         .WithMany()
                         .HasForeignKey("eventsId");
-                });
-
-            modelBuilder.Entity("ExamOnline.Models.Examination", b =>
-                {
-                    b.HasOne("ExamOnline.Models.Subjects", "Subjects")
-                        .WithMany()
-                        .HasForeignKey("SubjectId");
                 });
 
             modelBuilder.Entity("ExamOnline.Models.Question", b =>
