@@ -1,8 +1,9 @@
 ﻿var table = null;
-var arrDepart = [];
-var seldep = [];
+var arrSub = [];
+//var seldep = [];
 
 $(document).ready(function () {
+    debugger;
     table = $('#ManageQuestions').DataTable({
         "processing": true,
         "responsive": true,
@@ -33,12 +34,11 @@ $(document).ready(function () {
             { "data": "key" },
             {
                 "sortable": false,
-                "render": function (data, type, row) {
-                    //console.log(row);
+                "render": function (data, type, row, meta) {
                     $('[data-toggle="tooltip"]').tooltip();
-                    return '<button class="btn btn-outline-warning btn-circle" data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return GetById(' + row.id + ')" ><i class="fa fa-lg fa-edit"></i></button>'
+                    return '<button class="btn btn-outline-warning btn-circle" data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return GetById(' + meta.row + ')" ><i class="fa fa-lg fa-edit"></i></button>'
                         + '&nbsp;'
-                        + '<button class="btn btn-outline-danger btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + row.id + ')" ><i class="fa fa-lg fa-times"></i></button>'
+                        + '<button class="btn btn-outline-danger btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
                 }
             }
         ]
@@ -60,12 +60,12 @@ function ClearScreen() {
 
 function LoadSubject(element) {
     //debugger;
-    if (arrDepart.length === 0) {
+    if (arrSub.length === 0) {
         $.ajax({
             type: "Get",
             url: "/questions/loadquestion",
             success: function (data) {
-                arrDepart = data;
+                arrSub = data;
                 renderDepart(element);
             }
         });
@@ -79,7 +79,7 @@ function renderDepart(element) {
     var $option = $(element);
     $option.empty();
     $option.append($('<option/>').val('0').text('Select Subject').hide());
-    $.each(arrDepart, function (i, val) {
+    $.each(arrSub, function (i, val) {
         $option.append($('<option/>').val(val.subjectId).text(val.subjects.name))
     });
 }
@@ -87,16 +87,23 @@ function renderDepart(element) {
 LoadSubject($('#SubOption'))
 
 
-function GetById(id) {
+function GetById(number) {
     debugger;
+    var id = table.row(number).data().id;
     $.ajax({
         url: "/questions/GetById/",
         data: { id: id }
     }).then((result) => {
         debugger;
         $('#Id').val(result.id);
-        $('#Name').val(result.name);
-        $('#DepartOption').val(result.department_id)
+        $('#SubOption').val(result.subjectId);
+        $('#QuestionDetail').val(result.questions);
+        $('#OptionA').val(result.optionA);
+        $('#OptionB').val(result.optionB);
+        $('#OptionC').val(result.optionC);
+        $('#OptionD').val(result.optionD);
+        $('#OptionE').val(result.optionE);
+        $('#Key').val(result.key);
         $('#add').hide();
         $('#update').show();
         $('#myModal').modal('show');
@@ -104,19 +111,25 @@ function GetById(id) {
 }
 
 function Save() {
-    //debugger;
-    var Div = new Object();
-    Div.Id = 0;
-    Div.Name = $('#Name').val();
-    Div.department_id = $('#DepartOption').val();
+    debugger;
+    var Ques = new Object();
+    Ques.id = null;
+    Ques.subjectId = $('#SubOption').val();
+    Ques.questions = $('#QuestionDetail').val();
+    Ques.optionA = $('#OptionA').val();
+    Ques.optionB = $('#OptionB').val();
+    Ques.optionC = $('#OptionC').val();
+    Ques.optionD = $('#OptionD').val();
+    Ques.optionE = $('#OptionE').val();
+    Ques.key = $('#Key').val();
     $.ajax({
         type: 'POST',
-        url: "/divisions/InsertOrUpdate/",
+        url: "/questions/InsertOrUpdate/",
         cache: false,
         dataType: "JSON",
-        data: Div
+        data: Ques
     }).then((result) => {
-        //debugger;
+        debugger;
         if (result.statusCode == 200) {
             Swal.fire({
                 position: 'center',
@@ -134,19 +147,25 @@ function Save() {
 }
 
 function Update() {
-    //debugger;
-    var Div = new Object();
-    Div.Id = $('#Id').val();
-    Div.Name = $('#Name').val();
-    Div.department_id = $('#DepartOption').val();
+    debugger;
+    var Ques = new Object();
+    Ques.id = $('#Id').val();
+    Ques.subjectId = $('#SubOption').val();
+    Ques.questions = $('#QuestionDetail').val();
+    Ques.optionA = $('#OptionA').val();
+    Ques.optionB = $('#OptionB').val();
+    Ques.optionC = $('#OptionC').val();
+    Ques.optionD = $('#OptionD').val();
+    Ques.optionE = $('#OptionE').val();
+    Ques.key = $('#Key').val();
     $.ajax({
         type: 'POST',
-        url: "/divisions/InsertOrUpdate/",
+        url: "/questions/InsertOrUpdate/",
         cache: false,
         dataType: "JSON",
-        data: Div
+        data: Ques
     }).then((result) => {
-        //debugger;
+        debugger;
         if (result.statusCode == 200) {
             Swal.fire({
                 position: 'center',
@@ -163,7 +182,8 @@ function Update() {
     })
 }
 
-function Delete(id) {
+function Delete(del) {
+    var id = table.row(del).data().id;
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -173,12 +193,12 @@ function Delete(id) {
         confirmButtonText: 'Yes, delete it!',
     }).then((resultSwal) => {
         if (resultSwal.value) {
-            //debugger;
+            debugger;
             $.ajax({
-                url: "/divisions/Delete/",
+                url: "/questions/Delete/",
                 data: { id: id }
             }).then((result) => {
-                //debugger;
+                debugger;
                 if (result.statusCode == 200) {
                     //debugger;
                     Swal.fire({
