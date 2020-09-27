@@ -35,9 +35,11 @@ namespace ExamOnline
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
             services.AddScoped<QuestionRepo>();
+            services.AddScoped<AnswerRepo>();
+            services.AddScoped<ExaminationRepository>();
+            services.AddScoped<EventDetailsRepo>();
             services.AddScoped<EventsRepo>();
             services.AddScoped<SubjectsRepo>();
-            services.AddScoped<EventDetailsRepo>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -76,6 +78,7 @@ namespace ExamOnline
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseAuthentication();
         }
     }
 }

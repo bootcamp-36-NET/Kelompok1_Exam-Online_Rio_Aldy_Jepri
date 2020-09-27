@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using ExamOnline.Base;
 using ExamOnline.Models;
 using ExamOnline.Repositories.Data;
@@ -19,6 +20,19 @@ namespace ExamOnline.Controllers
         public SubjectsController(SubjectsRepo repo) : base (repo)
         {
             _repo = repo;
+        }
+
+        [HttpPost]
+        public override async Task<ActionResult<Subjects>> Post(Subjects entity)
+        {
+            if(entity.Name == null)
+            {
+                return BadRequest("Data empty");
+            }
+            else
+            {
+                return await base.Post(entity);             //calling super method using base
+            }
         }
 
         [HttpPut("{Id}")]

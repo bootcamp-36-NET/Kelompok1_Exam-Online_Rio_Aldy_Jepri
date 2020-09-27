@@ -25,10 +25,17 @@ namespace ExamOnline.Controllers
         {
             var getId = await _questionRepo.GetById(id);
             getId.Questions = entity.Questions;
+            getId.OptionA = entity.OptionA;
+            getId.OptionB = entity.OptionB;
+            getId.OptionC = entity.OptionC;
+            getId.OptionD = entity.OptionD;
+            getId.OptionE = entity.OptionE;
+            getId.Key = entity.Key;
+
             var data = await _questionRepo.Update(getId);
             if (data.Equals(null))
             {
-                return 404;
+                return BadRequest("Update Failed");
             }
             return data;
         }

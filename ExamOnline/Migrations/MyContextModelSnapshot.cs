@@ -26,6 +26,8 @@ namespace ExamOnline.Migrations
 
                     b.Property<string>("Answers");
 
+                    b.Property<string>("ExamId");
+
                     b.Property<string>("QuestionId");
 
                     b.Property<bool>("Status");
@@ -33,6 +35,8 @@ namespace ExamOnline.Migrations
                     b.Property<bool>("isDelete");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
 
                     b.HasIndex("QuestionId");
 
@@ -75,6 +79,30 @@ namespace ExamOnline.Migrations
                     b.ToTable("tb_m_events");
                 });
 
+            modelBuilder.Entity("ExamOnline.Models.Examination", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<string>("EmployeeId");
+
+                    b.Property<DateTimeOffset?>("RescheduleDate");
+
+                    b.Property<int>("Score");
+
+                    b.Property<string>("SubjectId");
+
+                    b.Property<bool>("isDelete");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("tb_t_examination");
+                });
+
             modelBuilder.Entity("ExamOnline.Models.Question", b =>
                 {
                     b.Property<string>("Id")
@@ -94,9 +122,13 @@ namespace ExamOnline.Migrations
 
                     b.Property<string>("Questions");
 
+                    b.Property<string>("SubjectId");
+
                     b.Property<bool>("isDelete");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("tb_m_question");
                 });
@@ -117,6 +149,10 @@ namespace ExamOnline.Migrations
 
             modelBuilder.Entity("ExamOnline.Models.Answer", b =>
                 {
+                    b.HasOne("ExamOnline.Models.Examination", "Examination")
+                        .WithMany()
+                        .HasForeignKey("ExamId");
+
                     b.HasOne("ExamOnline.Models.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId");
@@ -127,6 +163,20 @@ namespace ExamOnline.Migrations
                     b.HasOne("ExamOnline.Models.Events", "events")
                         .WithMany()
                         .HasForeignKey("eventsId");
+                });
+
+            modelBuilder.Entity("ExamOnline.Models.Examination", b =>
+                {
+                    b.HasOne("ExamOnline.Models.Subjects", "Subjects")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+                });
+
+            modelBuilder.Entity("ExamOnline.Models.Question", b =>
+                {
+                    b.HasOne("ExamOnline.Models.Subjects", "Subjects")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,9 +12,10 @@ namespace ExamOnline.Context
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
         public DbSet<Question> Question { get; set; }
         public DbSet<Answer> Answer { get; set; }
-        public DbSet<Events> Events { set; get; }
-        public DbSet<EventDetails> EventDetails { set; get; }
-        public DbSet<Subjects> Subjects { set; get; }
+        public DbSet<Subjects> Subjects { get; set; }
+        public DbSet<Examination> Examinations { get; set; }
+        public DbSet<Events> Events { get; set; }
+        public DbSet<EventDetails> EventDetails { get; set; }
 
     }
 }
