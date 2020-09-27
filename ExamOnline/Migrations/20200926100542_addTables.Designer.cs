@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamOnline.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200924041800_initFK")]
-    partial class initFK
+    [Migration("20200926100542_addTables")]
+    partial class addTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,42 @@ namespace ExamOnline.Migrations
                     b.ToTable("tb_t_answer");
                 });
 
+            modelBuilder.Entity("ExamOnline.Models.EventDetails", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EmployeeId");
+
+                    b.Property<string>("eventsId");
+
+                    b.Property<bool>("isDelete");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("eventsId");
+
+                    b.ToTable("tb_t_event_details");
+                });
+
+            modelBuilder.Entity("ExamOnline.Models.Events", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("EndDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTimeOffset>("StartDate");
+
+                    b.Property<bool>("isDelete");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tb_m_events");
+                });
+
             modelBuilder.Entity("ExamOnline.Models.Examination", b =>
                 {
                     b.Property<string>("Id")
@@ -54,7 +90,7 @@ namespace ExamOnline.Migrations
 
                     b.Property<string>("EmployeeId");
 
-                    b.Property<DateTimeOffset>("RescheduleDate");
+                    b.Property<DateTimeOffset?>("RescheduleDate");
 
                     b.Property<int>("Score");
 
@@ -63,6 +99,8 @@ namespace ExamOnline.Migrations
                     b.Property<bool>("isDelete");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("tb_t_examination");
                 });
@@ -120,6 +158,20 @@ namespace ExamOnline.Migrations
                     b.HasOne("ExamOnline.Models.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId");
+                });
+
+            modelBuilder.Entity("ExamOnline.Models.EventDetails", b =>
+                {
+                    b.HasOne("ExamOnline.Models.Events", "events")
+                        .WithMany()
+                        .HasForeignKey("eventsId");
+                });
+
+            modelBuilder.Entity("ExamOnline.Models.Examination", b =>
+                {
+                    b.HasOne("ExamOnline.Models.Subjects", "Subjects")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
                 });
 
             modelBuilder.Entity("ExamOnline.Models.Question", b =>

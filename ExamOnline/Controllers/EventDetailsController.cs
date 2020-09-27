@@ -26,7 +26,7 @@ namespace ExamOnline.Controllers
         {
             List<EventDetails> item = null;
             item = await _repo.GetEventId(Id);
-            if (item == null)
+            if(item == null)
             {
                 return NotFound("Data is not found");
             }
@@ -35,13 +35,13 @@ namespace ExamOnline.Controllers
 
 
         [HttpPut("{Id}")]
-        public async Task<ActionResult> Update(string Id, EventDetails details)
+        public async Task<ActionResult> Update (string Id, EventDetails details)
         {
             EventDetails item = await _repo.GetById(Id);
             item.EmployeeId = details.EmployeeId;
             int updatedItem = await _repo.Update(item);
 
-            if (updatedItem > 0)
+            if(updatedItem > 0)
             {
                 return Ok("Data is updated");
             }

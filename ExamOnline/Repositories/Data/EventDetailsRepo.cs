@@ -1,5 +1,6 @@
 ﻿using ExamOnline.Context;
 using ExamOnline.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace ExamOnline.Repositories.Data
             this._context = context;
         }
 
-        public async Task<List<EventDetails>> GetEventId(string Id)
+        public async Task<List<EventDetails>> GetEventId (string Id)
         {
             List<EventDetails> item = null;
             item = await _context.EventDetails.Where(x => x.eventsId == Id).ToListAsync();
-            if (item == null)
+            if(item == null)
             {
                 return null;
             }
