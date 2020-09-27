@@ -48,6 +48,8 @@ namespace ExamOnline.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("EmployeeId");
+
                     b.Property<string>("eventsId");
 
                     b.Property<bool>("isDelete");
@@ -86,7 +88,7 @@ namespace ExamOnline.Migrations
 
                     b.Property<string>("EmployeeId");
 
-                    b.Property<DateTimeOffset>("RescheduleDate");
+                    b.Property<DateTimeOffset?>("RescheduleDate");
 
                     b.Property<int>("Score");
 

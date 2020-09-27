@@ -11,9 +11,12 @@ namespace ExamOnline.Models
     [Table("tb_t_event_details")]
     public class EventDetails : BaseModel
     {
-        [Key]
         public string Id { get; set; }
+
+        [ForeignKey("EventsId")]
+        public string eventsId { set; get; }
         public virtual Events events { set; get; }
+        public string EmployeeId { set; get; }
         public bool isDelete { get; set; }
     }
 }
