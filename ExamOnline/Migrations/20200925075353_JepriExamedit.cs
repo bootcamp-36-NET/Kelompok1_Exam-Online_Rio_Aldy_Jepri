@@ -2,7 +2,7 @@
 
 namespace ExamOnline.Migrations
 {
-    public partial class RioAddIitTabel : Migration
+    public partial class JepriExamedit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

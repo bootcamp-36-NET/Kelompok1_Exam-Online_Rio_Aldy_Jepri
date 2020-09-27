@@ -11,7 +11,6 @@ namespace ExamOnline.Models
     [Table("tb_m_events")]
     public class Events : BaseModel
     {
-        [Key]
         public string Id { get; set; }
         public string Name { set; get; }
         public DateTimeOffset StartDate { set; get; }

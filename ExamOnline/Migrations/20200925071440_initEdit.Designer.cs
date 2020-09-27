@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamOnline.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200925065702_RioAddIitTabel")]
-    partial class RioAddIitTabel
+    [Migration("20200925071440_initEdit")]
+    partial class initEdit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,8 @@ namespace ExamOnline.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EmployeeId");
 
                     b.Property<string>("eventsId");
 
