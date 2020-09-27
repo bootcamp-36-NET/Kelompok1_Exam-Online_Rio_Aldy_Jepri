@@ -49,7 +49,7 @@ namespace ExamOnline.Controllers
                 getSts.Status = true;
             }
         }
-       // [Route ("Generate")]
+       [Route ("Generate")]
         public Question GenerateQuestion()
         {
             var list = _context.Question.ToArray();

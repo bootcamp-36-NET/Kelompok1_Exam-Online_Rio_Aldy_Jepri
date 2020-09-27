@@ -60,7 +60,7 @@ namespace ExamOnlineClient.Controllers
             Question question = null;
             //var token = HttpContext.Session.GetString("token");
             //client.DefaultRequestHeaders.Add("Authorization", token);
-            var resTask = client.GetAsync("joblists/" + Id);
+            var resTask = client.GetAsync("questions/" + Id);
             resTask.Wait();
             //HttpContext.Session.SetInt32("joblists", Id);
             var result = resTask.Result;
