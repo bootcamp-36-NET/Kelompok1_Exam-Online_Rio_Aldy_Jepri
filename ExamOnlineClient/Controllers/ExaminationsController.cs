@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ExamOnline.Models;
-using ExamOnlineClient.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -18,48 +16,11 @@ namespace ExamOnlineClient.Controllers
         {
             BaseAddress = new Uri("https://localhost:44376/api/")
         };
-
-        readonly HttpClient API = new HttpClient
-        {
-            BaseAddress = new Uri("http://winarto-001-site1.dtempurl.com/api/")
-        };
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult LoadEmployee()
-        {
-            List<EmployeeVM> employees = null;
-            List<EmployeeVM> trainees = new List<EmployeeVM>();
-            //var token = HttpContext.Session.GetString("token");
-            //client.DefaultRequestHeaders.Add("Authorization", token);
-            API.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("JWToken"));
-            var resTask = API.GetAsync("users");
-            resTask.Wait();
-
-            var result = resTask.Result;
-            if (result.IsSuccessStatusCode)
-            {
-                var readTask = result.Content.ReadAsAsync<List<EmployeeVM>>();
-                readTask.Wait();
-                employees = readTask.Result;
-                foreach (var employee in employees)
-                {
-                    if (employee.roleName == "Trainee")
-                    {
-                        trainees.Add(employee);
-                    }
-                }
-            }
-            else
-            {
-                trainees = null;
-                ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
-            }
-            return Json(trainees);
-        }
-                
         public IActionResult LoadExamination()
         {
             IEnumerable<Examination> examnations = null;
@@ -81,6 +42,7 @@ namespace ExamOnlineClient.Controllers
                 ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
             }
             return Json(examnations);
+
         }
 
         public IActionResult GetById(string Id)
