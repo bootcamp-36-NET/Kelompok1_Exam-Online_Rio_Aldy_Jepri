@@ -1,5 +1,6 @@
 ﻿using ExamOnline.Context;
 using ExamOnline.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,12 @@ namespace ExamOnline.Repositories.Data
         {
             _context = context;
             _configuration = config;
+        }
+
+        public override async Task<List<Examination>> GetAll()
+        {
+            var data = await _context.Examinations.Include("Subjects").Where(D => D.isDelete == false).ToListAsync();
+            return data;
         }
     }
 }
