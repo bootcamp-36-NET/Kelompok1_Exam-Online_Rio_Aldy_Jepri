@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ExamOnline.Migrations
 {
-    public partial class addTables : Migration
+    public partial class RioInitialDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

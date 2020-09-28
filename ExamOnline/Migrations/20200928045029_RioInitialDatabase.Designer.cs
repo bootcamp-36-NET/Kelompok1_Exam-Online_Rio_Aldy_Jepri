@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamOnline.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200926100542_addTables")]
-    partial class addTables
+    [Migration("20200928045029_RioInitialDatabase")]
+    partial class RioInitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
