@@ -69,5 +69,13 @@ namespace ExamOnline.Controllers
             var examination = await _context.Examinations.FirstOrDefaultAsync(x => x.EmployeeId == id && x.isDelete == false);
             return Ok(examination);
         }
+
+        [HttpGet]
+        [Route("loadsoal/{id}")]
+        public async Task<ActionResult> LoadSoal(string id)
+        {
+            var examination = await _context.Answer.Include("Question").Where(x => x.ExamId == id).ToListAsync();
+            return Ok(examination);
+        }
     }
 }
