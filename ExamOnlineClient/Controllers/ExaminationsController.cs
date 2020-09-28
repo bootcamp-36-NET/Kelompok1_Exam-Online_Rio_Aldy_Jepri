@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ExamOnline.Models;
+using ExamOnline.ViewModels;
 using ExamOnlineClient.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,11 @@ namespace ExamOnlineClient.Controllers
         }
 
         public IActionResult UserIndex()
+        {
+            return View();
+        }
+
+        public IActionResult ShowReschedule()
         {
             return View();
         }
@@ -196,6 +202,29 @@ namespace ExamOnlineClient.Controllers
             {
                 throw ex;
             }
+        }
+
+        public IActionResult readSchedule()
+        {
+            IEnumerable<ExaminationVM> emp = null;
+            //var token = HttpContext.Session.GetString("token");
+            //client.DefaultRequestHeaders.Add("Authorization", token);
+            var resTask = client.GetAsync("reschedule");
+            resTask.Wait();
+
+            var result = resTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<List<ExaminationVM>>();
+                readTask.Wait();
+                emp = readTask.Result;
+            }
+            else
+            {
+                emp = Enumerable.Empty<ExaminationVM>();
+                ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
+            }
+            return Json(emp);
         }
     }
 }
