@@ -20,7 +20,7 @@ namespace ExamOnline.Repositories.Data
         public async Task<List<EventDetails>> GetEventId (string Id)
         {
             List<EventDetails> item = null;
-            item = await _context.EventDetails.Where(x => x.eventsId == Id).ToListAsync();
+            item = await _context.EventDetails.Where(x => x.eventsId == Id && x.isDelete == false).ToListAsync();
             if(item == null)
             {
                 return null;

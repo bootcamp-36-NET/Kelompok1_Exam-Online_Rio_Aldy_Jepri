@@ -1,7 +1,7 @@
 ﻿var table = null;
 
 $(document).ready(function () {
-    debugger;
+    //debugger;
     table = $('#TblEvent').DataTable({
         "processing": true,
         "responsive": true,
@@ -42,7 +42,9 @@ $(document).ready(function () {
                     $('[data-toggle="tooltip"]').tooltip();
                     return '<button class="btn btn-outline-warning btn-circle" data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return GetById(' + meta.row + ')" ><i class="fa fa-lg fa-edit"></i></button>'
                         + '&nbsp;'
-                        + '<button class="btn btn-outline-danger btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
+                        + '<button class="btn btn-outline-danger btn-circle" data-placement="center" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
+                        + '&nbsp;'
+                        + '<button class="btn btn-outline-info btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Details" onclick="return GetEventDetails(' + meta.row + ')" ><i class="fa fa-lg fa-eye"></i></button>'
                 }
             }
         ]
@@ -74,6 +76,20 @@ function GetById(number) {
         $('#myModal').modal('show');
     })
 }
+
+function GetEventDetails(number) {
+    //debugger;
+    var id = table.row(number).data().id;
+    $.ajax({
+        url: "/events/GetEventDetails/",
+        type: 'post',
+        data: { id: id }
+    }).then((result) => {
+        window.location.href = "/eventdetails";
+    })
+}
+    
+
 
 function Save() {
     debugger;

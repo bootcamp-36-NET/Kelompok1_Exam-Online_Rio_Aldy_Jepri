@@ -2,14 +2,14 @@
 });
 
 function Login() {
-    debugger;
+    //debugger;
     //Swal.showLoading()
     var check = validate();
     if (check === false) {
         //Swal.fire('Error', 'Invalid Data', 'error');
         return false;
     }
-    debugger;
+    //debugger;
     var loginVM = {
         Email: $('#Email').val(),
         Password: $('#Password').val()
@@ -30,7 +30,7 @@ function Login() {
 }
 
 function validate() {
-    debugger;
+    //debugger;
     var isValid = true;
     if ($('#Email').val().trim() === "") {
         $('#Email').css('border-color', 'Red');

@@ -19,7 +19,7 @@ namespace ExamOnline.Repositories
         {
             _context = context;
         }
-        public async Task<int> Create(TEntity entity)
+        public virtual async Task<int> Create(TEntity entity)
         {
             entity.isDelete = false;
             await _context.Set<TEntity>().AddAsync(entity);
