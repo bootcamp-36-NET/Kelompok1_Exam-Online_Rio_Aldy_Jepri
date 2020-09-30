@@ -25,30 +25,6 @@ namespace ExamOnlineClient.Controllers
             return View();
         }
 
-        //public IActionResult LoadNotif()
-        //{
-        //    IEnumerable<Notifications> question = null;
-        //    //var token = HttpContext.Session.GetString("token");
-        //    //client.DefaultRequestHeaders.Add("Authorization", token);
-        //    var resTask = client.GetAsync("notifications");
-        //    resTask.Wait();
-
-        //    var result = resTask.Result;
-        //    if (result.IsSuccessStatusCode)
-        //    {
-        //        var readTask = result.Content.ReadAsAsync<List<Notifications>>();
-        //        readTask.Wait();
-        //        question = readTask.Result;
-        //    }
-        //    else
-        //    {
-        //        question = Enumerable.Empty<Notifications>();
-        //        ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
-        //    }
-        //    return Json(question);
-
-        //}
-
         public IActionResult LoadNotif(string id)
         {
             id = HttpContext.Session.GetString("id");
@@ -71,6 +47,13 @@ namespace ExamOnlineClient.Controllers
                 ModelState.AddModelError(string.Empty, "Server Error.");
             }
             return Json(notifications);
+        }
+        public IActionResult Delete(string id)
+        {
+            //var token = HttpContext.Session.GetString("token");
+            //client.DefaultRequestHeaders.Add("Authorization", token);
+            var result = client.DeleteAsync("notifications/" + id).Result;
+            return Json(result);
         }
 
     }

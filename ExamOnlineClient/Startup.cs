@@ -49,7 +49,7 @@ namespace ExamOnlineClient
             }
             else
             {
-                app.UseStatusCodePagesWithRedirects("/notfound");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
                 //app.UseExceptionHandler("/Home/Error");
                 //app.UseHsts();
             }

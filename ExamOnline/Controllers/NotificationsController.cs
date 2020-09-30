@@ -50,7 +50,7 @@ namespace ExamOnline.Controllers
         [Route("notif/{id}")]
         public async Task<ActionResult> Getnotife(string id)
         {
-            var data = await _context.Notifications.FirstOrDefaultAsync(x => x.EmployeeId == id);
+            var data = await _context.Notifications.FirstOrDefaultAsync(x => x.EmployeeId == id && x.isDelete == false);
             if (!data.Equals(0))
             {
                 return Ok(data);
