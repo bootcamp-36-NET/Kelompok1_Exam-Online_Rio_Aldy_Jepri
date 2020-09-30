@@ -27,7 +27,7 @@ namespace ExamOnline.Repositories
             return createdItem;
         }
 
-        public async Task<int> Delete(string Id)
+        public virtual async Task<int> Delete(string Id)
         {
             var item = await GetById(Id);
             if (item == null)

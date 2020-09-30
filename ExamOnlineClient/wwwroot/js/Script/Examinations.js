@@ -3,7 +3,7 @@ var arrTrainee = [];
 var arrSubjects = [];
 
 $(document).ready(function () {
-    debugger;
+    //debugger;
     table = $("#ManageQuestions").DataTable({
         "processing": true,
         "responsive": true,
@@ -76,7 +76,7 @@ $(document).ready(function () {
                     },
                 },
                 customize: function (doc) {
-                    debugger;
+                    //debugger;
                     var rowCount = doc.content[1].table.body.length;
                     for (i = 1; i < rowCount; i++) {
                         doc.content[1].table.body[i][2].alignment = 'center';
@@ -101,7 +101,7 @@ $(document).ready(function () {
             }
         ],
         initComplete: function () {
-            debugger;
+            //debugger;
             this.api().columns(1).every(function () {
                 var column = this;
                 var select = $('<select><option value="">All Trainee</option></select>')
@@ -210,7 +210,7 @@ function ClearScreen() {
 }
 
 function Delete(nummber) {
-    debugger;
+    //debugger;
     var id = table.row(nummber).data().id;
     Swal.fire({
         title: 'Are you sure?',
@@ -220,13 +220,13 @@ function Delete(nummber) {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
-        debugger;
+        //debugger;
         if (result.value) {
             $.ajax({
                 url: "/examinations/delete/",
                 data: { Id: id }
             }).then((result) => {
-                debugger;
+                //debugger;
                 if (result.statusCode === 200) {
                     Swal.fire({
                         position: 'center',
