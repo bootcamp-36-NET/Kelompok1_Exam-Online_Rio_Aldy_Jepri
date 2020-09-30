@@ -24,6 +24,7 @@ namespace ExamOnline.Controllers
         public IActionResult GetByUserId(string Id)
         {
             if (Id == null)
+
             {
                 return BadRequest("Id is null");
             }
@@ -42,4 +43,6 @@ namespace ExamOnline.Controllers
             }
         }
     }
+
 }
+

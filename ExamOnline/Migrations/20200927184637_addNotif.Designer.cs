@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamOnline.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200929101629_JepInit")]
-    partial class JepInit
+    [Migration("20200927184637_addNotif")]
+    partial class addNotif
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -122,7 +122,7 @@ namespace ExamOnline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("notifications");
                 });
 
             modelBuilder.Entity("ExamOnline.Models.Question", b =>

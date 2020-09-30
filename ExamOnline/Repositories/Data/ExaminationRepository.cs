@@ -2,6 +2,7 @@
 using ExamOnline.Context;
 using ExamOnline.Controllers;
 using ExamOnline.Models;
+using ExamOnline.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -94,6 +95,7 @@ namespace ExamOnline.Repositories.Data
                 return _random.Next(0, 10).ToString("D2");
             }
         }
+
         public List<Examination> GetByUser(string Id)
         {
             var item = _context.Examinations.Include("Subjects").Where(x => x.EmployeeId == Id).ToList();

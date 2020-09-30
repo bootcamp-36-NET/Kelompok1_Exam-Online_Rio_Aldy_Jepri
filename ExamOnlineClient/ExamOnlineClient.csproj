@@ -16,4 +16,8 @@
     <ProjectReference Include="..\ExamOnline\ExamOnline.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Result\" />
+  </ItemGroup>
+
 </Project>
