@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+
 @{
     Layout = null;
 }
@@ -55,7 +56,7 @@
                     <li class="dropdown dropdown-user">
                         <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
                             <img src="~/html/dist/assets/img/admin-avatar.png" />
-                            <span></span><i class="fa fa-angle-down m-l-5"></i>
+                            <span></span>@Context.Session.GetString("name")<i class="fa fa-angle-down m-l-5"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="/examinations/userindex"><i class="fa fa-user"></i>Profile</a>
@@ -100,7 +101,7 @@
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="sidebar-item-icon fa fa-table"></i>
+                            <i class="sidebar-item-icon fa fa-meetup"></i>
                             <span class="nav-label">Manage</span><i class="fa fa-angle-left arrow"></i>
                         </a>
                         <ul class="nav-2-level collapse">
@@ -116,7 +117,7 @@
                             <li>
                                 <a href="/Examinations">Examinations</a>
                             </li>
-                            
+
                         </ul>
                     </li>
                     <li>
@@ -129,6 +130,12 @@
                         <a href="/notifications">
                             <i class="sidebar-item-icon fa fa-commenting-o"></i>
                             <span class="nav-label">Notifications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/result">
+                            <i class="sidebar-item-icon fa fa-free-code-camp"></i>
+                            <span class="nav-label">Exam Result</span>
                         </a>
                     </li>
                 </ul>

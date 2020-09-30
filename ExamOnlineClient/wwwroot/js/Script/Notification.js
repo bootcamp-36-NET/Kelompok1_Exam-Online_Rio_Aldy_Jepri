@@ -13,7 +13,7 @@ function loadData() {
         debugger;
         $('#Id').append(result.id);
         $('#Message').append(result.message);
-        $('#Emp').append(result.employeeId);
+        $('#Emp').append(result.nama);
         $('#Date').append(result.createdDate);  
     });
 }

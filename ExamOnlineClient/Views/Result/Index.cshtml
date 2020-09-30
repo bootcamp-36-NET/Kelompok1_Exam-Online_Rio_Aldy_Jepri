@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/_Layout.cshtml";
@@ -8,7 +8,8 @@
 
 
     <div class="page-heading">
-        <h1 class="page-title">Exam Result</h1>
+        <h1 class="page-title" align="center"><b>Exam Result</b></h1>
+        <h4 class="page-title" align="center">@Context.Session.GetString("name")</h4>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/"><i class="la la-home font-20"></i></a>
@@ -26,7 +27,6 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Employee</th>
                             <th>Subject</th>
                             <th>Exam Date</th>
                             <th>Score</th>

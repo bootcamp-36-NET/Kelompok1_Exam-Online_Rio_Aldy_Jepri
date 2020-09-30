@@ -20,7 +20,6 @@
                     //return meta.row + 1;
                 }
             },
-            { "data": "employeeId" },
             { "data": "subjects.name" },
             { "data": "createdDate" },
             { "data": "score" }
