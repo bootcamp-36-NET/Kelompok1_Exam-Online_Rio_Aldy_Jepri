@@ -12,7 +12,7 @@ namespace ExamOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventDetailsController : BaseController<EventDetails, EventDetailsRepo>
+    public class EventDetailsController : BaseController<EventDetailsVM, EventDetailsRepo>
     {
         private EventDetailsRepo _repo;
 
@@ -22,9 +22,9 @@ namespace ExamOnline.Controllers
         }
 
         [HttpGet("events/{Id}", Name = "Get By Event Id")]
-        public async Task<ActionResult<List<EventDetails>>> GetEventId(string Id)
+        public async Task<ActionResult<List<EventDetailsVM>>> GetEventId(string Id)
         {
-            List<EventDetails> item = null;
+            List<EventDetailsVM> item = null;
             item = await _repo.GetEventId(Id);
             if(item == null)
             {
@@ -35,9 +35,9 @@ namespace ExamOnline.Controllers
 
 
         [HttpPut("{Id}")]
-        public async Task<ActionResult> Update (string Id, EventDetails details)
+        public async Task<ActionResult> Update (string Id, EventDetailsVM details)
         {
-            EventDetails item = await _repo.GetById(Id);
+            EventDetailsVM item = await _repo.GetById(Id);
             item.EmployeeId = details.EmployeeId;
             int updatedItem = await _repo.Update(item);
 
@@ -47,6 +47,27 @@ namespace ExamOnline.Controllers
             }
             return BadRequest("Updated is failed");
 
+        }
+
+        [HttpPut("emp/")]
+        public ActionResult DeleteUser(EventDetailsVM eventDetailsVM)
+        {
+            if(eventDetailsVM == null)
+            {
+                return BadRequest("Data empty");
+            }
+            else
+            {
+                int deletedItem = _repo.DeleteUser(eventDetailsVM);
+                if(deletedItem > 0)
+                {
+                    return Ok("Data deleted");
+                }
+                else
+                {
+                    return BadRequest("Delete data failed");
+                }
+            }
         }
     }
 }

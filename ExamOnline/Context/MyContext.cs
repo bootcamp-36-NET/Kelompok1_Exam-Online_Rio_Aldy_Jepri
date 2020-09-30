@@ -15,7 +15,7 @@ namespace ExamOnline.Context
         public DbSet<Subjects> Subjects { get; set; }
         public DbSet<Examination> Examinations { get; set; }
         public DbSet<Events> Events { get; set; }
-        public DbSet<EventDetails> EventDetails { get; set; }
+        public DbSet<EventDetailsVM> EventDetails { get; set; }
         public DbSet<Notifications> notifications { set; get; }
 
     }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Remotion.Linq.Utilities;
 
+
 namespace ExamOnlineClient.Controllers
 {
     public class EventsController : Controller
@@ -86,11 +87,12 @@ namespace ExamOnlineClient.Controllers
             return Json(new { success = result });
         }
 
-        public IActionResult GetEventDetails(string Id)
+        public async Task<JsonResult> GetEventDetails(string Id)
         {
             HttpContext.Session.SetString("id", Id);
             bool result = true;
-            return Json(new { success = result});
+            return Json(new { success = result });
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿﻿var table = null;
-var arrDepart = [];
+var arrTrainee = [];
+var arrSubjects = [];
 
 $(document).ready(function () {
     //debugger;
@@ -142,38 +143,65 @@ $(document).ready(function () {
     }).draw();
 });
 
-function LoadDepart(element) {
+function LoadTrainee(element) {
     //debugger;
-    if (arrDepart.length === 0) {
+    if (arrTrainee.length === 0) {
         $.ajax({
             type: "Get",
             url: "/examinations/loademployee",
             success: function (data) {
-                arrDepart = data;
-                renderDepart(element);
+                arrTrainee = data;
+                renderTrainee(element);
             }
         });
     }
     else {
-        renderDepart(element);
+        renderTrainee(element);
     }
 }
 
-function renderDepart(element) {
-    //debugger;
+function renderTrainee(element) {
     var $option = $(element);
     $option.empty();
     $option.append($('<option/>').val('0').text('Select Trainee').hide());
-    $.each(arrDepart, function (i, val) {
+    $.each(arrTrainee, function (i, val) {
         $option.append($('<option/>').val(val.id).text(val.name));
     });
 }
 
-LoadDepart($('#TraineeOption'));
+LoadTrainee($('#TraineeOption'));
 
+
+function LoadSubjects(element) {
+    //debugger;
+    if (arrSubjects.length === 0) {
+        $.ajax({
+            type: "Get",
+            url: "/subjects/Load/",
+            success: function (data) {
+                arrSubjects = data;
+                renderSubjects(element);
+            }
+        });
+    }
+    else {
+        renderSubjetcs(element);
+    }
+}
+
+function renderSubjects(element) {
+    var $option = $(element);
+    $option.empty();
+    $option.append($('<option/>').val('0').text('Select Subjects').hide());
+    $.each(arrSubjects, function (i, val) {
+        $option.append($('<option/>').val(val.id).text(val.name));
+    });
+}
+
+LoadSubjects($('#SubjectsOption'));
 
 function ClearScreen() {
-    LoadDepart($('#TraineeOption'));
+    LoadTrainee($('#TraineeOption'));
     $('#Id').val('');
     $('#TraineeOption').val('0');
     $('#Name').val('');
@@ -215,4 +243,84 @@ function Delete(nummber) {
             });
         }
     });
+}
+
+function Save() {
+    debugger;
+    var Examination = new Object();
+    Examination.Id = null;
+    Examination.CreatedDate = $('#Schedule').val();
+    Examination.EmployeeId = $('#TraineeOption').val();
+    Examination.SubjectId = $('#SubjectsOption').val();
+    $.ajax({
+        type: 'POST',
+        url: "/examinations/InsertOrUpdate/",
+        cache: false,
+        dataType: "JSON",
+        data: Examination
+    }).then((result) => {
+        debugger;
+        if (result.statusCode === 200) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Data inserted Successfully',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            table.ajax.reload(null, false);
+        } else {
+            Swal.fire('Error', 'Failed to Input', 'error');
+            ClearScreen();
+        }
+    });
+}
+
+function GetById(number) {
+    debugger;
+    var id = table.row(number).data().id;
+    $.ajax({
+        url: "/examinations/GetById/",
+        data: { id: id }
+    }).then((result) => {
+        debugger;
+        $('#Id').val(result.id);
+        $('#SubjectsOption').val(result.subjectId);
+        $('#TraineeOption').val(result.employeeId);
+        $('#Schedule').val(result.createdDate);
+        $('#Insert').hide();
+        $('#Update').show();
+        $('#exampleModal').modal('show');
+    })
+}
+
+function Update() {
+    debugger;
+    var Examination = new Object();
+    Examination.Id = $('#Id').val();;
+    Examination.CreatedDate = $('#Schedule').val();
+    Examination.EmployeeId = $('#TraineeOption').val();
+    Examination.SubjectId = $('#SubjectsOption').val();
+    $.ajax({
+        type: 'POST',
+        url: "/examinations/InsertOrUpdate/",
+        cache: false,
+        dataType: "JSON",
+        data: Examination
+    }).then((result) => {
+        debugger;
+        if (result.statusCode === 200) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Data Updated Successfully',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            table.ajax.reload(null, false);
+        } else {
+            Swal.fire('Error', 'Failed to Input', 'error');
+            ClearScreen();
+        }
+    })
 }

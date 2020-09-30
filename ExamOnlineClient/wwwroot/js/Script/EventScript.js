@@ -42,7 +42,7 @@ $(document).ready(function () {
                     $('[data-toggle="tooltip"]').tooltip();
                     return '<button class="btn btn-outline-warning btn-circle" data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return GetById(' + meta.row + ')" ><i class="fa fa-lg fa-edit"></i></button>'
                         + '&nbsp;'
-                        + '<button class="btn btn-outline-danger btn-circle" data-placement="center" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
+                        + '<button class="btn btn-outline-danger btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
                         + '&nbsp;'
                         + '<button class="btn btn-outline-info btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Details" onclick="return GetEventDetails(' + meta.row + ')" ><i class="fa fa-lg fa-eye"></i></button>'
                 }
@@ -61,7 +61,7 @@ function ClearScreen() {
 }
 
 function GetById(number) {
-    debugger;
+    //debugger;
     var id = table.row(number).data().id;
     $.ajax({
         url: "/events/GetById/",
@@ -92,7 +92,7 @@ function GetEventDetails(number) {
 
 
 function Save() {
-    debugger;
+    //debugger;
     var item = new Object();
     item.Name = $('#Name').val();
     item.StartDate = $('#StartDate').val();

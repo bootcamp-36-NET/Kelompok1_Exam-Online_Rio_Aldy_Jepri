@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ExamOnline.Models
 {
     [Table("tb_t_event_details")]
-    public class EventDetails : BaseModel
+    public class EventDetailsVM : BaseModel
     {
         public string Id { get; set; }
 

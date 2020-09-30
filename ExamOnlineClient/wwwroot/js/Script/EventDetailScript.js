@@ -2,7 +2,7 @@
 var arrEmployee = [];
 
 $(document).ready(function () {
-    debugger;
+    //debugger;
     table = $('#TblEventDetails').DataTable({
         "processing": true,
         "responsive": true,
@@ -55,7 +55,7 @@ $(document).ready(function () {
 });
 
 function ClearScreen() {
-    debugger;
+    //debugger;
     LoadEmployee($('#EmployeeOption'));
     $('#EmployeeOption').val('0');
     $('#Id').val('');
@@ -66,7 +66,7 @@ function ClearScreen() {
 }
 
 function LoadEmployee(element) {
-    debugger;
+    //debugger;
     if (arrEmployee.length === 0) {
         $.ajax({
             type: "Get",
@@ -82,7 +82,7 @@ function LoadEmployee(element) {
 }
 
 function renderEmployee(element) {
-    debugger;
+    //debugger;
     var $option = $(element);
     $option.empty();
     $option.append($('<option/>').val('0').text('Select Trainee').hide());
@@ -106,61 +106,39 @@ function GetById(id) {
 }
 
 function Save() {
+    //debugger;
+    //var id = table.row(number).data().id;
     var item = new Object();
-    item.EmployeeId = id;
+    item.EmployeeId = $('#EmployeeOption').val();
     $.ajax({
         type: "POST",
-        url: "/EventDetails/Insert",
+        url: "/EventDetails/Insert/",
         cache: false,
         dataType: "JSON",
-        dataSrc: item
+        data: item
     }).then((result) => {
-        if (result.sucess == true) {
-            swal.fire({
+        debugger;
+        if (result.success == true) {
+            Swal.fire({
                 position: 'center',
                 icon: 'success',
                 title: 'Data Saved',
-                showConfirmationButton: false,
-                timer: 1500,
-            })
-            table.ajax.reload(null, false);
+                showConfirmButton: false,
+                timer: 1500
+            });
+            $('#TblEventDetails').DataTable().ajax.reload(null, false);
         } else {
-            swal.fire('Error', "Insert data failed", 'error');
+            Swal.fire('Error', "Insert data failed", 'error');
             ClearScreen();
         }
-    })
+    });
 }
 
-//function Update(number) {
-//    var id = table.row(number).data().id;
-//    var item = new Object();
-//    item.EmployeeId = id;
-//    $.ajax({
-//        type: 'POST',
-//        url: "/EventDetails/Insert",
-//        cache: false,
-//        dataType: "JSON",
-//        data: item
-//    }).then((result) => {
-//        if (result.sucess == true) {
-//            swal.fire({
-//                position: 'center',
-//                icon: 'success',
-//                title: 'Data updated',
-//                showConfirmationButton: false,
-//                timer: 1500
-//            });
-//            table.ajax.reload(null, false);
-//        } else {
-//            swal.fire('Error', 'Update data failed', 'error');
-//            ClearScreen();
-//        }
-//    })
-//}
 
 function Delete(number) {
     debugger;
-    var id = table.row(number).data().id;
+    var item = new Object();
+    item.EmployeeId = table.row(number).data().id;
     swal.fire({
         title: 'Are you sure?',
         text: "This is cannot be undo",
@@ -173,7 +151,7 @@ function Delete(number) {
             debugger;
             $.ajax({
                 url: "/eventDetails/delete",
-                data: { id: id }
+                data: item
             }).then((result) => {
                 if (result.success == true) {
                     debugger;
@@ -181,10 +159,10 @@ function Delete(number) {
                         position: 'center',
                         icon: 'success',
                         title: 'Delete Successfully',
-                        showConfirmationButton: false,
+                        showConfirmButton: false,
                         timer: 1500
                     });
-                    table.ajax.reload(null, false);
+                    $('#TblEventDetails').DataTable().ajax.reload(null, false);
                 } else {
                     Swal.fire('Error', 'Failed to delete', 'error');
                     ClearScreen();

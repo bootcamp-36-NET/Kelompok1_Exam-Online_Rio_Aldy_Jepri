@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ExamOnline.Models;
+using ExamOnline.ViewModels;
 using ExamOnlineClient.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,16 @@ namespace ExamOnlineClient.Controllers
             BaseAddress = new Uri("http://winarto-001-site1.dtempurl.com/api/")
         };
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult UserIndex()
+        {
+            return View();
+        }
+
+        public IActionResult ShowReschedule()
         {
             return View();
         }
@@ -119,12 +130,12 @@ namespace ExamOnlineClient.Controllers
                     var result = client.PostAsync("examinations", byteContent).Result;
                     return Json(result);
                 }
-                else if (examination.Id == id)
+                else if (examination.Id != null)
                 {
                     var result = client.PutAsync("examinations/" + id, byteContent).Result;
                     return Json(result);
                 }
-
+                
                 return Json(404);
             }
             catch (Exception ex)
@@ -139,6 +150,81 @@ namespace ExamOnlineClient.Controllers
             //client.DefaultRequestHeaders.Add("Authorization", token);
             var result = client.DeleteAsync("examinations/" + id).Result;
             return Json(result);
+        }
+
+        public ActionResult GetUser()
+        {
+            var id = HttpContext.Session.GetString("id");
+            Examination examination = null;
+
+            var resTask = client.GetAsync("examinations/details/" + id);
+            resTask.Wait();
+
+            var result = resTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<Examination>();
+                readTask.Wait();
+
+                examination = readTask.Result;
+            }
+            var response = Tuple.Create(examination, result);
+
+            return Json(response, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+        public IActionResult Reschedule(Examination examination, string id)
+        {
+            var ids = HttpContext.Session.GetString("id");
+            Examination examinationn = null;
+            var resTask = client.GetAsync("examinations/details/" + ids);
+            resTask.Wait();
+            var resultt = resTask.Result;
+            if (resultt.IsSuccessStatusCode)
+            {
+                var readTask = resultt.Content.ReadAsAsync<Examination>();
+                readTask.Wait();
+
+                examinationn = readTask.Result;
+                examinationn.RescheduleDate = examination.RescheduleDate;
+            }
+            id = examinationn.Id;
+
+            try
+            {
+                var json = JsonConvert.SerializeObject(examinationn);
+                var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var result = client.PutAsync("examinations/reschedule/" + id, byteContent).Result;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IActionResult readSchedule()
+        {
+            IEnumerable<ExaminationVM> emp = null;
+            //var token = HttpContext.Session.GetString("token");
+            //client.DefaultRequestHeaders.Add("Authorization", token);
+            var resTask = client.GetAsync("reschedule");
+            resTask.Wait();
+
+            var result = resTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<List<ExaminationVM>>();
+                readTask.Wait();
+                emp = readTask.Result;
+            }
+            else
+            {
+                emp = Enumerable.Empty<ExaminationVM>();
+                ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
+            }
+            return Json(emp);
         }
     }
 }

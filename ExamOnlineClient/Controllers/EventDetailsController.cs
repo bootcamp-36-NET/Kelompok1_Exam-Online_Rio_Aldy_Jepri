@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
+
 namespace ExamOnlineClient.Controllers
 {
     public class EventDetailsController : Controller
     {
+
         List<EmployeeVM> trainees = new List<EmployeeVM>();
         List<EmployeeVM> employeeList = null;
 
@@ -28,14 +30,16 @@ namespace ExamOnlineClient.Controllers
         };
 
         [Route("/eventdetails")]
+
         public IActionResult Index()
         {
             return View();
         }
 
+
         public async Task<JsonResult> Load()
         {
-            List<EventDetailsVM> detailList = null;
+            List<ViewModels.EventDetailsVM> detailList = null;
             List<EmployeeVM> _trainees = new List<EmployeeVM>();
             List<EmployeeVM> traineesToView = new List<EmployeeVM>();
 
@@ -48,7 +52,7 @@ namespace ExamOnlineClient.Controllers
             if(result.IsSuccessStatusCode)
             {
                 var output = result.Content.ReadAsStringAsync().Result;
-                detailList = JsonConvert.DeserializeObject<List<EventDetailsVM>>(output);
+                detailList = JsonConvert.DeserializeObject<List<ViewModels.EventDetailsVM>>(output);
 
                 _trainees = this.LoadAPI().Result;
 
@@ -91,7 +95,7 @@ namespace ExamOnlineClient.Controllers
                 employeeList = readTask.Result;
                 foreach (var employee in employeeList)
                 {
-                    if (employee.roleName == "Trainee")
+                    if (employee.roleName == "Trainee" || employee.roleName == "Trainer")
                     {
                         trainees.Add(employee);
                     }
@@ -117,29 +121,38 @@ namespace ExamOnlineClient.Controllers
 
         }
 
-        public async Task<JsonResult> Insert(string Id, EventDetails details)
+        public async Task<JsonResult> Insert(ViewModels.EventDetailsVM details)
         {
-            var item = JsonConvert.SerializeObject(details);
+            if(details.EmployeeId != null)
+            {
+                details.eventsId = HttpContext.Session.GetString("id");
 
-            if(item != null)
-            {
-                var postTask = client.PutAsync("eventdetails/" + Id, new StringContent(item, Encoding.UTF8, "application/json"));
-                postTask.Wait();
-                var result = postTask.Result;
-                return Json(new { success = result.IsSuccessStatusCode });
-            }
-            else
-            {
+                var item = JsonConvert.SerializeObject(details);
                 var postTask = client.PostAsync("eventdetails/", new StringContent(item, Encoding.UTF8, "application/json"));
                 postTask.Wait();
                 var result = postTask.Result;
-                return Json(new { success = result.IsSuccessStatusCode });
+                if (result.IsSuccessStatusCode)
+                {
+                    return Json(new { success = result.IsSuccessStatusCode });
+                }
+                else
+                {
+                    return Json(new { success = result.StatusCode });
+                }
+            }
+            else
+            {
+                return Json(404);
             }
         }
 
-        public async Task<JsonResult> Delete(string Id)
+        public async Task<JsonResult> Delete(ViewModels.EventDetailsVM eventDetailsVM)
         {
-            var deleteTask = client.DeleteAsync("eventdetails/" + Id);
+            eventDetailsVM.eventsId = HttpContext.Session.GetString("id");
+
+            string item = JsonConvert.SerializeObject(eventDetailsVM);
+
+            var deleteTask = client.PutAsync("eventdetails/emp/", new StringContent(item, Encoding.UTF8, "application/json"));
             deleteTask.Wait();
             var result = deleteTask.Result;
             
@@ -152,5 +165,6 @@ namespace ExamOnlineClient.Controllers
                 return Json(result.StatusCode);
             }
         }
+
     }
 }
