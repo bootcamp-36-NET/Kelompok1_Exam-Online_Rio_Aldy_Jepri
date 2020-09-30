@@ -1,0 +1,93 @@
+﻿@model ExamOnline.ViewModels.ExA
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "ExamPage";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+    var num = 1;
+
+}
+
+<h2>ExamPage</h2>
+<div class="content-wrapper">
+    <!-- START PAGE CONTENT-->
+    <!-- Modal -->
+    <div class="page-heading">
+        <h1 class="page-title">Examination</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/"><i class="la la-home font-20"></i></a>
+            </li>
+        </ol>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            @*<div class="ibox-head">
+                <div class="ibox-title">Data Table</div>
+                </div>*@
+            <div class="ibox-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <input name="Id" class="form-control" type="hidden"
+                               placeholder="" id="Id" />
+                    </div>
+                    <div>
+                        <h4>Answer</h4>
+                        <hr />
+                        <dlv class="dl-horizontal">
+                            <form method="post" action="/examinations/submit/">
+                                <table>
+                                    <tr>
+                                        <td><button class="btn btn-primary">Submit & Back</button></td>
+                                        @for (int i = 0; i < 10; i++)
+                                        {
+                                            <td>
+                                                <a href="@Url.Action("exampage", "examinations", new { @qno = i} )" class="btn btn-primary">@(i + 1)</a>
+                                            </td>
+                                        }
+
+                                        <td><button class="btn btn-primary">Submit & Next</button></td>
+                                    </tr>
+                                </table>
+
+                                <div>
+                                    <p>
+                                        @Model.QuestionNummber <a>. </a> </a> @Html.Raw(Model.Question.Questions)
+                                    </p>
+                                </div>
+                                <div>
+                                    <input type="hidden" asp-for="QuestionId" />
+                                </div>
+                                <div>
+                                    <input type="hidden" asp-for="QuestionNummber" />
+                                </div>
+                                <div>
+                                    <input type="hidden" asp-for="ExamId" />
+                                </div>
+                                <div>
+                                    <input type="hidden" asp-for="Id" />
+                                </div>
+                                <div>
+                                    <a>A. </a> <input type="radio" id="optionA" name="Answers" asp-for="Answers" value=@Model.Question.OptionA /> <span>@Model.Question.OptionA</span>
+                                </div>
+                                <div>
+                                    <a>B. </a><input type="radio" id="optionB" name="Answers" asp-for="Answers" value=@Model.Question.OptionB /> <span>@Model.Question.OptionB</span>
+                                </div>
+                                <div>
+                                    <a>C. </a><input type="radio" id="optionC" name="Answers" asp-for="Answers" value=@Model.Question.OptionC /> <span>@Model.Question.OptionC</span>
+                                </div>
+                                <div>
+                                    <a>D. </a><input type="radio" id="optionD" name="Answers" asp-for="Answers" value=@Model.Question.OptionD /> <span>@Model.Question.OptionD</span>
+                                </div>
+                                <div>
+                                    <a>E. </a><input type="radio" id="optionE" name="Answers" asp-for="Answers" value=@Model.Question.OptionE /> <span>@Model.Question.OptionE</span>
+                                </div>
+
+                            </form>
+                        </dlv>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        

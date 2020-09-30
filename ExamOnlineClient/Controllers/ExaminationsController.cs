@@ -5,14 +5,16 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ExamOnline.Models;
+using ExamOnline.ViewModels;
 using ExamOnlineClient.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
 namespace ExamOnlineClient.Controllers
 {
-    public class ExaminationsController : Controller
+    public class ExaminationsController : Controller 
     {
         readonly HttpClient client = new HttpClient
         {
@@ -31,6 +33,94 @@ namespace ExamOnlineClient.Controllers
         {
             return View();
         }
+
+        public IActionResult Examination()
+        {
+            List<Answer> answers = null;
+            var id = "74a050c2-b9db-443e-9331-dbc9242e56bd";
+            var resTask = client.GetAsync("examinations/loadsoal/" + id);
+            resTask.Wait();
+            var result = resTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<List<Answer>>();
+                readTask.Wait();
+                answers = readTask.Result;
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Server Error.");
+            }
+            return View(answers);
+        }
+
+        public IActionResult start(int qno)
+        {
+            return RedirectToAction("ExamPage", qno);
+        }
+
+
+        //[BindProperty(SupportsGet = true)]
+        //public List<Answer> answ { get; set; }
+
+        //[BindProperty(SupportsGet = true)]
+        //public Answer answer { get; set; }
+
+
+        public IActionResult ExamPage(int qno)
+        {
+            List<Answer> answ = null;
+            ExA ExA = new ExA(); 
+            var id = "74a050c2-b9db-443e-9331-dbc9242e56bd";
+            var resTask = client.GetAsync("examinations/loadsoal/" + id);
+            resTask.Wait();
+            var result = resTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<List<Answer>>();
+                readTask.Wait();
+                answ = readTask.Result;
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Server Error.");
+            }
+            var answer = answ[qno];
+            ExA.Id = answer.Id;
+            ExA.QuestionId = answer.QuestionId;
+            ExA.Question = answer.Question;
+            ExA.Answers = answer.Answers;
+            ExA.Status = answer.Status;
+            ExA.isDelete = answer.isDelete;
+            ExA.ExamId = answer.ExamId;
+            ExA.Examination = answer.Examination;
+            ExA.QuestionNummber = qno;
+            return View(ExA);
+        }
+
+        [HttpPost]
+        public IActionResult Submit(ExA ExA)
+        {
+            var a = "";
+            var qno = ExA.QuestionNummber + 1;
+            Answer answer = new Answer();
+            answer.Id = ExA.Id;
+            answer.QuestionId = ExA.QuestionId;
+            answer.Question = ExA.Question;
+            answer.Answers = ExA.Answers;
+            answer.Status = ExA.Status;
+            answer.isDelete = ExA.isDelete;
+            answer.ExamId = ExA.ExamId;
+            answer.Examination = ExA.Examination;
+            var json = JsonConvert.SerializeObject(answer);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var result = client.PutAsync("answers/" + answer.Id, byteContent).Result;
+
+            return RedirectToAction("ExamPage", new{@qno = qno});
+        }
+
 
         public IActionResult LoadEmployee()
         {
@@ -161,6 +251,8 @@ namespace ExamOnlineClient.Controllers
                 readTask.Wait();
 
                 examination = readTask.Result;
+                HttpContext.Session.SetString("examid", examination.Id);
+
             }
             var response = Tuple.Create(examination, result);
 
@@ -197,5 +289,7 @@ namespace ExamOnlineClient.Controllers
                 throw ex;
             }
         }
+
+
     }
 }

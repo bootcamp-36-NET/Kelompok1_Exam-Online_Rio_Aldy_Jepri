@@ -50,10 +50,10 @@ namespace ExamOnlineClient.Controllers
                 var account = JsonConvert.DeserializeObject<AccountVM>(jwtPayloadSer);
                 //var isVerified = token.Claims.First(c => c.Type == "IsVerified").Value;
 
-                HttpContext.Session.SetString("id", account.Id);
-                HttpContext.Session.SetString("email", account.Name);
-                HttpContext.Session.SetString("role", account.RoleName);
-                HttpContext.Session.SetString("name", account.Name);
+                HttpContext.Session.SetString("id", account.Id); // emp id
+                HttpContext.Session.SetString("email", account.Name); // email 
+                HttpContext.Session.SetString("role", account.RoleName); // role
+                HttpContext.Session.SetString("name", account.Name); // nama
                 //HttpContext.Session.SetString("verified", token.Claims.First(c => c.Type == "IsVerified").Value);
                 //HttpContext.Session.SetString("JWToken", authToken);
 

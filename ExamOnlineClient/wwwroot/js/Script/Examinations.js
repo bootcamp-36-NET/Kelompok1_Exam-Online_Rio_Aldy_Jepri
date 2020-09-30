@@ -294,6 +294,8 @@ function GetById(number) {
     })
 }
 
+
+
 function Update() {
     debugger;
     var Examination = new Object();
