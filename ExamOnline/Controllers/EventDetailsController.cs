@@ -48,5 +48,26 @@ namespace ExamOnline.Controllers
             return BadRequest("Updated is failed");
 
         }
+
+        [HttpPut("emp/")]
+        public ActionResult DeleteUser(EventDetails eventDetails)
+        {
+            if(eventDetails == null)
+            {
+                return BadRequest("Data empty");
+            }
+            else
+            {
+                int deletedItem = _repo.DeleteUser(eventDetails);
+                if(deletedItem > 0)
+                {
+                    return Ok("Data deleted");
+                }
+                else
+                {
+                    return BadRequest("Delete data failed");
+                }
+            }
+        }
     }
 }

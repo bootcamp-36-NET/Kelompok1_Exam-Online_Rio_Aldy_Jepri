@@ -5,9 +5,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ExamOnline.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Remotion.Linq.Utilities;
+
 
 namespace ExamOnlineClient.Controllers
 {
@@ -86,19 +89,10 @@ namespace ExamOnlineClient.Controllers
 
         public async Task<JsonResult> GetEventDetails(string Id)
         {
-            IEnumerable<EventDetails> details = null;
-            
-            var readTask = client.GetAsync("/eventdetails/events/" + Id);
-            readTask.Wait();
-            var result = readTask.Result;
+            HttpContext.Session.SetString("id", Id);
+            bool result = true;
+            return Json(new { success = result });
 
-            if(result.IsSuccessStatusCode)
-            {
-                var output = result.Content.ReadAsStringAsync().Result;
-                details = JsonConvert.DeserializeObject<List<EventDetails>>(output);
-                return Json(new { success = result.IsSuccessStatusCode });
-            }
-            return Json(new { failed = result.StatusCode });
         }
     }
 }

@@ -20,12 +20,30 @@ namespace ExamOnline.Repositories.Data
         public async Task<List<EventDetails>> GetEventId (string Id)
         {
             List<EventDetails> item = null;
-            item = await _context.EventDetails.Where(x => x.eventsId == Id).ToListAsync();
+
+            item = await _context.EventDetails.Where(x => x.eventsId == Id && x.isDelete == false).ToListAsync();
+
             if(item == null)
             {
                 return null;
             }
             return item;
+        }
+
+        public int DeleteUser(EventDetails eventDetails)
+        {
+            var item = _context.EventDetails.Where(x => x.eventsId == eventDetails.eventsId && x.EmployeeId == eventDetails.EmployeeId && x.isDelete == false).SingleOrDefault();
+
+            if(item == null)
+            {
+                return 0;
+            }
+            else
+            {
+                item.isDelete = true;
+                _context.Entry(item).State = EntityState.Modified;
+                return _context.SaveChanges();
+            }
         }
     }
 }
