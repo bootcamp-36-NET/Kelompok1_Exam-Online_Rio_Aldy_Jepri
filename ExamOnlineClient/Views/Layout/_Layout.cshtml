@@ -31,7 +31,7 @@
         <!-- START HEADER-->
         <header class="header">
             <div class="page-brand">
-                <a class="link" href="index.html">
+                <a class="link" >
                     <span class="brand">
                         Online
                         <span class="brand-tip">EXAM</span>
@@ -116,7 +116,7 @@
                     <li class="heading">FEATURES</li>
                     @if (role == "Admin" || role == "Trainer")
                     {
-                        <li>
+                        @*<li>
                             <a href="javascript:;">
                                 <i class="sidebar-item-icon fa fa-meetup"></i>
                                 <span class="nav-label">Manage</span><i class="fa fa-angle-left arrow"></i>
@@ -137,8 +137,37 @@
                                 <li>
                                     <a href="/Examinations">Examinations</a>
                                 </li>
-
                             </ul>
+                        </li>*@
+                        <li>
+                            <a href="/events">
+                                <i class="sidebar-item-icon fa fa-window-maximize"></i>
+                                <span class="nav-label">Events</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/eventdetails">
+                                <i class="sidebar-item-icon fa fa-window-restore"></i>
+                                <span class="nav-label">Events Details</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/subjects">
+                                <i class="sidebar-item-icon fa fa-tags"></i>
+                                <span class="nav-label">Subjects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Examinations">
+                                <i class="sidebar-item-icon fa fa-edit"></i>
+                                <span class="nav-label">Examinations</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/questions">
+                                <i class="sidebar-item-icon fa fa-question"></i>
+                                <span class="nav-label">Questions</span>
+                            </a>
                         </li>
                         <li>
                             <a href="/examinations/ShowReschedule">
@@ -163,13 +192,13 @@
                         </li>
                         <li>
                             <a href="/result">
-                                <i class="sidebar-item-icon fa fa-free-code-camp"></i>
+                                <i class="sidebar-item-icon fa fa-file-o"></i>
                                 <span class="nav-label">Exam Result</span>
                             </a>
                         </li>
                     }
 
-                </ul>   
+                </ul>
             </div>
         </nav>
         <!-- END SIDEBAR-->
@@ -194,7 +223,6 @@
     <!-- PAGE LEVEL SCRIPTS-->
     <script src="~/js/moment.min.js"></script>
     <script src="~/js/datatables.min.js"></script>
-    <script src="~/js/sb-admin-2.js"></script>
     <script src="~/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/jquery.dataTables.min.js"></script>
     <!-- PAGE LEVEL SCRIPTS-->
