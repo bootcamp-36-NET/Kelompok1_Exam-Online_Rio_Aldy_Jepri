@@ -28,11 +28,11 @@ namespace ExamOnline.Controllers
         public async Task<ActionResult<int>> Update(string id, Examination entity)
         {
             var getId = await _repository.GetById(id);
-            if (entity.ExpiredDate != null && getId.ExpiredDate == null)
+            if (entity.ExpiredDate != null && getId.ExpiredDate == null && entity.EmployeeId != null)
             {
                 getId.ExpiredDate = entity.ExpiredDate;
             }
-            else if (entity.EmployeeId == null)
+            else if (entity.EmployeeId == null )
             {
                 getId.RescheduleDate = entity.RescheduleDate;
             }

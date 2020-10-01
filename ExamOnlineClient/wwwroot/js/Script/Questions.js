@@ -80,7 +80,7 @@ function renderDepart(element) {
     $option.empty();
     $option.append($('<option/>').val('0').text('Select Subject').hide());
     $.each(arrSub, function (i, val) {
-        $option.append($('<option/>').val(val.subjectId).text(val.name))
+        $option.append($('<option/>').val(val.id).text(val.name))
     });
 }
 
