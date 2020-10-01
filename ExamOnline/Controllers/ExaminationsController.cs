@@ -28,7 +28,7 @@ namespace ExamOnline.Controllers
         public async Task<ActionResult<int>> Update(string id, Examination entity)
         {
             var getId = await _repository.GetById(id);
-            if (entity.ExpiredDate != null && getId.ExpiredDate == null && entity.EmployeeId != null)
+            if (entity.ExpiredDate != null && getId.ExpiredDate == null)
             {
                 getId.ExpiredDate = entity.ExpiredDate;
             }
@@ -60,11 +60,11 @@ namespace ExamOnline.Controllers
             {
                 if (item.Status == true)
                 {
-                    count = count + 1;
+                    count = count + 10;
                 }
             }
-            examination.Score = count / 10;
-            _repository.Update(examination);
+            examination.Score = count;
+            var data = _repository.Update(examination);
         }
         [HttpGet]
         [Route("details/{id}")]

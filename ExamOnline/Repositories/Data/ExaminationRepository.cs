@@ -32,7 +32,6 @@ namespace ExamOnline.Repositories.Data
 
         public override async Task<int> Create(Examination entity)
         {
-            
             entity.isDelete = false;
             await _context.Set<Examination>().AddAsync(entity);
             var createdItem = await _context.SaveChangesAsync();

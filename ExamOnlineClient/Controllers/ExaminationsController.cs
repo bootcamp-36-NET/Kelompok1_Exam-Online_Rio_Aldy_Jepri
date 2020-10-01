@@ -50,7 +50,7 @@ namespace ExamOnlineClient.Controllers
         {
             if (qno > 9)
             {
-                qno = 9;
+                return Redirect("/result");
             }else if(qno < 0)
             {
                 qno = 0;
@@ -84,14 +84,18 @@ namespace ExamOnlineClient.Controllers
             ExA.Examination = answer.Examination;
             ExA.QuestionNummber = qno;
             ViewBag.TimeExpired = answer.Examination.ExpiredDate;
-            var available = DateTime.Compare(DateTime.UtcNow, answer.Examination.ExpiredDate.Value.AddMinutes(600));
+            var date1 = DateTime.UtcNow;
+            var date2 = answer.Examination.ExpiredDate.Value.AddMinutes(10);
+            var date3 = answer.Examination.CreatedDate.UtcDateTime;
+            var available = DateTime.Compare(date1 , date2);
             var created = answer.Examination.CreatedDate.UtcDateTime;
-            var available2 = DateTime.Compare(DateTime.UtcNow, created.AddHours(6));
-            if ( available < 0 && available2 < 0)
+            var available2 = DateTime.Compare(date1, created.AddHours(6));
+            var available3 = DateTime.Compare(date1, date3);
+            if ( available < 0 && available2 < 0 && available3 < 0)
             {
                 return View(ExA);
             }
-            return Redirect("/examinations/userindex/");
+            return Redirect("/result/");
         }
 
         [HttpPost]
