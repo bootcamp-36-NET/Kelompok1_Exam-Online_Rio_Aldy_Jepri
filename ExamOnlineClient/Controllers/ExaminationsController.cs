@@ -35,7 +35,6 @@ namespace ExamOnlineClient.Controllers
         {
             return View();
         }
-
         public IActionResult start(int qno)
         {
             var id = HttpContext.Session.GetString("examid");
@@ -116,7 +115,10 @@ namespace ExamOnlineClient.Controllers
 
             return RedirectToAction("ExamPage", new{@qno = qno});
         }
-
+        public IActionResult ShowReschedule()
+        {
+            return View();
+        }
 
         public IActionResult LoadEmployee()
         {
@@ -215,7 +217,7 @@ namespace ExamOnlineClient.Controllers
                     var result = client.PutAsync("examinations/" + id, byteContent).Result;
                     return Json(result);
                 }
-                
+
                 return Json(404);
             }
             catch (Exception ex)
@@ -285,7 +287,57 @@ namespace ExamOnlineClient.Controllers
                 throw ex;
             }
         }
+        public IActionResult readSchedule()
+        {
+            IEnumerable<Examination> emp = null;
+            //var token = HttpContext.Session.GetString("token");
+            //client.DefaultRequestHeaders.Add("Authorization", token);
+            var resTask = client.GetAsync("reschedule");
+            resTask.Wait();
 
+            var result = resTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<List<Examination>>();
+                readTask.Wait();
+                emp = readTask.Result;
+            }
+            else
+            {
+                emp = Enumerable.Empty<Examination>();
+                ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
+            }
+            return Json(emp);
+        }
 
+        public IActionResult Approve(Examination examination)
+        {
+            var json = JsonConvert.SerializeObject(examination);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage result = null;
+            if (examination.Id != null)
+            {
+                result = client.PostAsync("reschedule/Approve/", byteContent).Result;
+                return Json(result);
+            }
+            return Json(404);
+        }
+
+        public IActionResult Reject(Examination examination)
+        {
+            var json = JsonConvert.SerializeObject(examination);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage result = null;
+            if (examination.Id != null)
+            {
+                result = client.PostAsync("reschedule/Reject/", byteContent).Result;
+                return Json(result);
+            }
+            return Json(404);
+        }
     }
 }

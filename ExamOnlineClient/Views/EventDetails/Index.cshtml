@@ -6,12 +6,12 @@
 
 <div class="content-wrapper">
     <!-- START PAGE CONTENT-->
-    <!-- Modal -->
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header no-bd">
-                    <h5 class="modal-title"><span class="fw-mediumbold">Job List</span></h5>
+                    <h5 class="modal-title"><span class="fw-mediumbold">Insert New Participant</span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -23,22 +23,11 @@
                             <input type="text" id="Id" name="Id" class="form-control" hidden>
                             <div class="col-sm-12">
                                 <div class="form-group form-group-default">
-                                    <label>Name</label>
-                                    <input type="text" id="Name" name="Name" class="form-control" placeholder="Name">
+                                    <label>Trainee</label>
+                                    <select class="form-control" id="EmployeeOption" name="EmployeeOption"></select>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Email</label>
-                                    <input type="text" id="Email" name="Email" class="form-control" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Address</label>
-                                    <input type="text" id="Address" name="Address" class="form-control" placeholder="Address">
-                                </div>
-                            </div>
+                            
                         </div>
                     </form>
                 </div>
@@ -51,9 +40,8 @@
         </div>
     </div>
 
-
     <div class="page-heading">
-        <h1 class="page-title">Manage Job List</h1>
+        <h1 class="page-title">Manage Event Detail</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/"><i class="la la-home font-20"></i></a>
@@ -65,6 +53,9 @@
             </button>
         </div>
     </div>
+
+
+
     <div class="page-content fade-in-up">
         <div class="ibox">
             @*<div class="ibox-head">
@@ -77,8 +68,10 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Address</th>
+
+                            <th>NIK</th>
+                            <th>Role</th>
+
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -90,5 +83,9 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/Script/Questions.js"></script>
+
+    <script src="~/js/Script/EventDetailScript.js"></script>
+
 }
+
+

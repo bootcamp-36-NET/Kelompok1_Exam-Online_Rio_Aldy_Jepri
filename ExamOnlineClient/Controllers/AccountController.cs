@@ -28,6 +28,19 @@ namespace ExamOnlineClient.Controllers
             return View();
         }
 
+        [Route("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Redirect("/login");
+        }
+
+        [Route("notfound")]
+        public IActionResult Notfound()
+        {
+            return View();
+        }
+
         public IActionResult Login(LoginVM loginVM)
         {
             string stringData = JsonConvert.SerializeObject(loginVM);
