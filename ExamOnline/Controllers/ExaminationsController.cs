@@ -70,7 +70,7 @@ namespace ExamOnline.Controllers
         [Route("details/{id}")]
         public async Task<ActionResult> GetUserById(string id)
         {
-            var examination = await _context.Examinations.FirstOrDefaultAsync(x => x.EmployeeId == id && x.isDelete == false);
+            var examination = await _context.Examinations.Include("Subjects").FirstOrDefaultAsync(x => x.EmployeeId == id && x.isDelete == false);
             return Ok(examination);
         }
 

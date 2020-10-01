@@ -21,7 +21,13 @@
                 }
             },
             { "data": "subjects.name" },
-            { "data": "createdDate" },
+            {
+                "data": "createdDate",
+                "render": function (jsonDate) {
+                    var date = moment(jsonDate).format("DD MMMM YYYY, h:mm:ss a");
+                    return date;
+                }
+            },
             { "data": "score" }
         ]
     });

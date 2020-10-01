@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@{
+    var name = Context.Session.GetString("uname");
+    var role = Context.Session.GetString("role");
 
+}
 @{
     Layout = null;
 }
@@ -59,7 +63,7 @@
                             <span></span>@Context.Session.GetString("name")<i class="fa fa-angle-down m-l-5"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/examinations/userindex"><i class="fa fa-user"></i>Profile</a>
+                            <a class="dropdown-item" href="/profile"><i class="fa fa-user"></i>Profile</a>
                             <li class="dropdown-divider"></li>
                             <a class="dropdown-item" href="/logout"><i class="fa fa-power-off"></i>Logout</a>
                         </ul>
@@ -77,68 +81,95 @@
                         <img src="~/html/dist/assets/img/admin-avatar.png" width="45px" />
                     </div>
                     <div class="admin-info">
-                        <div class="font-strong">James Brown</div><small>Administrator</small>
+                        <div class="font-strong">@Context.Session.GetString("name")</div><small>@Context.Session.GetString("role")</small>
                     </div>
                 </div>
                 <ul class="side-menu metismenu">
-                    <li>
-                        <a href="/Examinations">
-                            <i class="sidebar-item-icon fa fa-th-large"></i>
-                            <span class="nav-label">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="heading">FEATURES</li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="sidebar-item-icon fa fa-edit"></i>
-                            <span class="nav-label">Test</span><i class="fa fa-angle-left arrow"></i>
-                        </a>
-                        <ul class="nav-2-level collapse">
-                            <li>
-                                <a href="/LoadGenerate">Online Examination</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="sidebar-item-icon fa fa-meetup"></i>
-                            <span class="nav-label">Manage</span><i class="fa fa-angle-left arrow"></i>
-                        </a>
-                        <ul class="nav-2-level collapse">
-                            <li>
-                                <a href="/events">Events</a>
-                            </li>
-                            <li>
-                                <a href="/subjects">Subjects</a>
-                            </li>
-                            <li>
-                                <a href="/questions">Questions</a>
-                            </li>
-                            <li>
-                                <a href="/Examinations">Examinations</a>
-                            </li>
+                    @if (role == "Trainer")
+                    {
+                        <li>
+                            <a href="/Examinations">
+                                <i class="sidebar-item-icon fa fa-th-large"></i>
+                                <span class="nav-label">Dashboard</span>
+                            </a>
+                        </li>
+                    }
+                    else if (role == "Trainee")
+                    {
+                        <li>
+                            <a href="/examinations/userindex">
+                                <i class="sidebar-item-icon fa fa-th-large"></i>
+                                <span class="nav-label">Dashboard</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/events">
+                                <i class="sidebar-item-icon fa fa-th-large"></i>
+                                <span class="nav-label">Dashboard</span>
+                            </a>
+                        </li>
+                    }
 
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/examinations/ShowReschedule">
-                            <i class="sidebar-item-icon fa fa-calendar"></i>
-                            <span class="nav-label">Reschedule</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/notifications">
-                            <i class="sidebar-item-icon fa fa-commenting-o"></i>
-                            <span class="nav-label">Notifications</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/result">
-                            <i class="sidebar-item-icon fa fa-free-code-camp"></i>
-                            <span class="nav-label">Exam Result</span>
-                        </a>
-                    </li>
-                </ul>
+                    <li class="heading">FEATURES</li>
+                    @if (role == "Admin" || role == "Trainer")
+                    {
+                        <li>
+                            <a href="javascript:;">
+                                <i class="sidebar-item-icon fa fa-meetup"></i>
+                                <span class="nav-label">Manage</span><i class="fa fa-angle-left arrow"></i>
+                            </a>
+                            <ul class="nav-2-level collapse">
+                                <li>
+                                    <a href="/events">Events</a>
+                                </li>
+                                <li>
+                                    <a href="/eventdetails">Events Details</a>
+                                </li>
+                                <li>
+                                    <a href="/subjects">Subjects</a>
+                                </li>
+                                <li>
+                                    <a href="/questions">Questions</a>
+                                </li>
+                                <li>
+                                    <a href="/Examinations">Examinations</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/examinations/ShowReschedule">
+                                <i class="sidebar-item-icon fa fa-calendar"></i>
+                                <span class="nav-label">Reschedule</span>
+                            </a>
+                        </li>
+                    }
+                    else if (role == "Trainee")
+                    {
+                        <li>
+                            <a href="/examinations/userindex">
+                                <i class="sidebar-item-icon fa fa-edit"></i>
+                                <span class="nav-label">Examination</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/notifications">
+                                <i class="sidebar-item-icon fa fa-commenting-o"></i>
+                                <span class="nav-label">Notifications</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/result">
+                                <i class="sidebar-item-icon fa fa-free-code-camp"></i>
+                                <span class="nav-label">Exam Result</span>
+                            </a>
+                        </li>
+                    }
+
+                </ul>   
             </div>
         </nav>
         <!-- END SIDEBAR-->
@@ -168,7 +199,7 @@
     <script src="~/js/jquery.dataTables.min.js"></script>
     <!-- PAGE LEVEL SCRIPTS-->
     <script src="~/js/sweetalert2@9.js"></script>
-
+    <script src="~/js/metisMenu.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

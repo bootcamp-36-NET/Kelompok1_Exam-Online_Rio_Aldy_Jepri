@@ -17,10 +17,6 @@ namespace ExamOnlineClient.Controllers
         {
             BaseAddress = new Uri("http://winarto-001-site1.dtempurl.com/api/")
         };
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [Route("login")]
         public IActionResult Login()
@@ -33,6 +29,11 @@ namespace ExamOnlineClient.Controllers
         {
             HttpContext.Session.Clear();
             return Redirect("/login");
+        }
+        [Route("profile")]
+        public IActionResult Profile()
+        {
+            return View();
         }
 
         [Route("notfound")]
