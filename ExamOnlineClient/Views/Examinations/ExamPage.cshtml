@@ -30,72 +30,82 @@
                 <div class="ibox-title">Data Table</div>
                 </div>*@
             <div class="ibox-body">
-                <div class="col-lg-6">
+                <div class="col-lg-12 col-md-4">
                     <div class="form-group">
                         <input name="Id" class="form-control" type="hidden"
                                placeholder="" id="Id" />
                     </div>
                     <div>
-                        <h4>Answer</h4>
                         <hr />
                         <dlv class="dl-horizontal">
-                            <form method="post" action="/examinations/submit/">
-                                <table>
-                                    <tr>
-                                        <td><button class="btn btn-primary" >Submit & Back</button></td>
-                                        @for (int i = 0; i < 10; i++)
-                                        {
-                                            <td>
-                                                <a href="@Url.Action("exampage", "examinations", new { @qno = i} )" class="btn btn-primary">@(i + 1)</a>
-                                            </td>
-                                        }
+                            <div class="col-lg-12 col-md-4">
+                                <form method="post" action="/examinations/submit/">
+                                    <table align="center">
+                                        <tr>
+                                            @for (int i = 0; i < 10; i++)
+                                            {
+                                                <td>
+                                                    <a href="@Url.Action("exampage", "examinations", new { @qno = i} )" class="btn btn-primary">@(i + 1)</a>
+                                                </td>
+                                            }
+                                            
+                                            
+                                            @if (QNO == 10)
+                                            {
+                                                <td><button class="btn btn-primary">Finish</button></td>
+                                            }
+                                            else {
+                                                <td><button class="btn btn-primary">Submit & Next</button></td>
+                                            }
+                                        </tr>
+                                    </table>
 
-                                        <td><button class="btn btn-primary">Submit & Next</button></td>
-                                    </tr>
-                                </table>
+                                    <div>
+                                        <hr />
+                                        <h4>Question</h4>
+                                        <p>
+                                            @QNO<a>. </a> </a> @Html.Raw(Model.Question.Questions)
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <input type="hidden" asp-for="QuestionId" />
+                                    </div>
+                                    <div>
+                                        <input type="hidden" asp-for="QuestionNummber" />
+                                    </div>
+                                    <div>
+                                        <input type="hidden" asp-for="ExamId" />
+                                    </div>
+                                    <div>
+                                        <input type="hidden" asp-for="Id" />
+                                    </div>
+                                    <div>
+                                        <a>A. </a> <input type="radio" id="optionA" name="Answers" asp-for="Answers" value=@Model.Question.OptionA /> <span>@Model.Question.OptionA</span>
+                                    </div>
+                                    <div>
+                                        <a>B. </a><input type="radio" id="optionB" name="Answers" asp-for="Answers" value=@Model.Question.OptionB /> <span>@Model.Question.OptionB</span>
+                                    </div>
+                                    <div>
+                                        <a>C. </a><input type="radio" id="optionC" name="Answers" asp-for="Answers" value=@Model.Question.OptionC /> <span>@Model.Question.OptionC</span>
+                                    </div>
+                                    <div>
+                                        <a>D. </a><input type="radio" id="optionD" name="Answers" asp-for="Answers" value=@Model.Question.OptionD /> <span>@Model.Question.OptionD</span>
+                                    </div>
+                                    <div>
+                                        <a>E. </a><input type="radio" id="optionE" name="Answers" asp-for="Answers" value=@Model.Question.OptionE /> <span>@Model.Question.OptionE</span>
+                                    </div>
 
-                                <div>
-                                    <p>
-                                        @QNO<a>. </a> </a> @Html.Raw(Model.Question.Questions)
-                                    </p>
-                                </div>
-                                <div>
-                                    <input type="hidden" asp-for="QuestionId" />
-                                </div>
-                                <div>
-                                    <input type="hidden" asp-for="QuestionNummber" />
-                                </div>
-                                <div>
-                                    <input type="hidden" asp-for="ExamId" />
-                                </div>
-                                <div>
-                                    <input type="hidden" asp-for="Id" />
-                                </div>
-                                <div>
-                                    <a>A. </a> <input type="radio" id="optionA" name="Answers" asp-for="Answers" value=@Model.Question.OptionA /> <span>@Model.Question.OptionA</span>
-                                </div>
-                                <div>
-                                    <a>B. </a><input type="radio" id="optionB" name="Answers" asp-for="Answers" value=@Model.Question.OptionB /> <span>@Model.Question.OptionB</span>
-                                </div>
-                                <div>
-                                    <a>C. </a><input type="radio" id="optionC" name="Answers" asp-for="Answers" value=@Model.Question.OptionC /> <span>@Model.Question.OptionC</span>
-                                </div>
-                                <div>
-                                    <a>D. </a><input type="radio" id="optionD" name="Answers" asp-for="Answers" value=@Model.Question.OptionD /> <span>@Model.Question.OptionD</span>
-                                </div>
-                                <div>
-                                    <a>E. </a><input type="radio" id="optionE" name="Answers" asp-for="Answers" value=@Model.Question.OptionE /> <span>@Model.Question.OptionE</span>
-                                </div>
+                                </form>
+                            </div>
 
-                            </form>
                         </dlv>
                     </div>
                     <hr>
                 </div>
             </div>
         </div>
-
-        <script>
+    </div>
+    <script>
             var remSeconds = @timeRemaining;
             var secondsCounter = remSeconds % 60;
             function startTick() {
@@ -114,8 +124,14 @@
                     else {
                         alert('Yout Examination is Oveer');
                         clearInterval(_tick);
+                        window.location.href = "/result/";
                     }
                 }, 1000);
             }
             startTick();
-        </script>
+    </script>
+    <script>
+        function ExamPage() {
+            window.location.href = "/result/";
+        }
+    </script>
