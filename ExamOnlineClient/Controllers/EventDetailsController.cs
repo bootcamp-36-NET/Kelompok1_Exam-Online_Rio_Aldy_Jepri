@@ -67,7 +67,6 @@ namespace ExamOnlineClient.Controllers
                                 traineesToView.Add(employee);
                             }
                         }
-                        
                     }
                 }
                 else
@@ -164,6 +163,13 @@ namespace ExamOnlineClient.Controllers
             {
                 return Json(result.StatusCode);
             }
+        }
+
+        public async Task<JsonResult> GoToExam(string Id)
+        {
+            HttpContext.Session.SetString("id", Id);
+            bool result = true;
+            return Json(new { success = result });
         }
 
     }

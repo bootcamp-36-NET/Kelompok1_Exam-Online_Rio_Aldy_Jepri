@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ExamOnline.Repositories.Data
 {
-    public class EventDetailsRepo : GeneralRepo<EventDetailsVM, MyContext>
+    public class EventDetailsRepo : GeneralRepo<EventDetails, MyContext>
     {
         private MyContext _context;
         public EventDetailsRepo(MyContext context) : base(context)
@@ -17,9 +17,9 @@ namespace ExamOnline.Repositories.Data
             this._context = context;
         }
 
-        public async Task<List<EventDetailsVM>> GetEventId (string Id)
+        public async Task<List<EventDetails>> GetEventId (string Id)
         {
-            List<EventDetailsVM> item = null;
+            List<EventDetails> item = null;
 
             item = await _context.EventDetails.Where(x => x.eventsId == Id && x.isDelete == false).ToListAsync();
 
@@ -30,7 +30,7 @@ namespace ExamOnline.Repositories.Data
             return item;
         }
 
-        public int DeleteUser(EventDetailsVM eventDetails)
+        public int DeleteUser(EventDetails eventDetails)
         {
             var item = _context.EventDetails.Where(x => x.eventsId == eventDetails.eventsId && x.EmployeeId == eventDetails.EmployeeId && x.isDelete == false).SingleOrDefault();
 

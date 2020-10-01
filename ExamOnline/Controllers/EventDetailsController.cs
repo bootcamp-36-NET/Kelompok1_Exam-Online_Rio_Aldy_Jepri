@@ -12,7 +12,7 @@ namespace ExamOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventDetailsController : BaseController<EventDetailsVM, EventDetailsRepo>
+    public class EventDetailsController : BaseController<EventDetails, EventDetailsRepo>
     {
         private EventDetailsRepo _repo;
 
@@ -22,9 +22,9 @@ namespace ExamOnline.Controllers
         }
 
         [HttpGet("events/{Id}", Name = "Get By Event Id")]
-        public async Task<ActionResult<List<EventDetailsVM>>> GetEventId(string Id)
+        public async Task<ActionResult<List<EventDetails>>> GetEventId(string Id)
         {
-            List<EventDetailsVM> item = null;
+            List<EventDetails> item = null;
             item = await _repo.GetEventId(Id);
             if(item == null)
             {
@@ -35,9 +35,9 @@ namespace ExamOnline.Controllers
 
 
         [HttpPut("{Id}")]
-        public async Task<ActionResult> Update (string Id, EventDetailsVM details)
+        public async Task<ActionResult> Update (string Id, EventDetails details)
         {
-            EventDetailsVM item = await _repo.GetById(Id);
+            EventDetails item = await _repo.GetById(Id);
             item.EmployeeId = details.EmployeeId;
             int updatedItem = await _repo.Update(item);
 
@@ -50,7 +50,7 @@ namespace ExamOnline.Controllers
         }
 
         [HttpPut("emp/")]
-        public ActionResult DeleteUser(EventDetailsVM eventDetailsVM)
+        public ActionResult DeleteUser(EventDetails eventDetailsVM)
         {
             if(eventDetailsVM == null)
             {

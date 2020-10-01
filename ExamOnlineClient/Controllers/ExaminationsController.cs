@@ -69,6 +69,7 @@ namespace ExamOnlineClient.Controllers
             }
             return Json(trainees);
         }
+
         public IActionResult LoadExamination()
         {
             IEnumerable<Examination> examnations = null;
@@ -90,7 +91,6 @@ namespace ExamOnlineClient.Controllers
                 ModelState.AddModelError(string.Empty, "Server Error try after sometimes.");
             }
             return Json(examnations);
-
         }
 
         public IActionResult GetById(string Id)
