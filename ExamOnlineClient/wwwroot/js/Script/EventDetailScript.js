@@ -29,30 +29,46 @@ $(document).ready(function () {
                 "render": function (data, type, row, meta) {
                     $('[data-toggle="tooltip"]').tooltip();
                     return '<button class="btn btn-outline-danger btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
+                        + '&nbsp;'
+                        + '<button class="btn btn-outline-info btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Exam Result" onclick="return GetExam(' + meta.row + ')" ><i class="fa fa-lg fa-eye"></i></button>'
                 }
             }
         ]
-        //initComplete: function () {
-        //    debugger;
-        //    this.api().columns(1).everyday(function () {
-        //        var column = this;
-        //        var select = $('<select><option value="">'All Trainee'</option></select>')
-        //            .appendTo($(column.header()).empty())
-        //            .on('change', function () {
-        //                var val = $.fn.dataTable.util.escapeRegex(
-        //                    $(this).val()
-        //                );
-        //                column
-        //                    .search(val ? '^' + val + '$' : '', true, false)
-        //                    .draw();
-        //            });
-        //        column.data().unique().sort().each(function (d, j) {
-        //            select.append('<option value=">' + d + '</option>');
-        //        });
-        //    });
-        //}
+        
     });
 });
+
+
+var _table = null;
+var arrEmployee = [];
+
+$(document).ready(function () {
+    //debugger;
+    _table = $('#TblEventDetailsT').DataTable({
+        "processing": true,
+        "responsive": true,
+        "pagination": true,
+        "stateSave": true,
+        "ajax": {
+            url: "/eventdetails/load/",
+            type: "GET",
+            dataType: "json",
+            dataSrc: ""
+        },
+        "columns": [
+            {
+                "data": "id",
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            { "data": "name" },
+            { "data": "nik" },
+            { "data": "roleName" }
+        ]
+    });
+});
+
 
 function ClearScreen() {
     //debugger;
@@ -132,6 +148,18 @@ function Save() {
             ClearScreen();
         }
     });
+}
+
+function GetExam(number) {
+    //debugger;
+    var id = table.row(number).data().id;
+    $.ajax({
+        url: "/eventdetails/GoToExam",
+        type: 'post',
+        data: { id: id }
+    }).then((result) => {
+        window.location.href = "/resulttrainer";
+    })
 }
 
 

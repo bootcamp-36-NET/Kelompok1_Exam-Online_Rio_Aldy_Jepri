@@ -51,6 +51,47 @@ $(document).ready(function () {
     });
 });
 
+var _table = null;
+
+$(document).ready(function () {
+    //debugger;
+    _table = $('#TblEventT').DataTable({
+        "processing": true,
+        "responsive": true,
+        "pagination": true,
+        "stateSave": true,
+        "ajax": {
+            url: "/events/Load/",
+            type: "GET",
+            dataType: "json",
+            dataSrc: "",
+        },
+        "columns": [
+            {
+                "data": "id",
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            { "data": "name" },
+            {
+                "data": "startDate",
+                'render': function (jsonDate) {
+                    var date = new Date(jsonDate);
+                    return moment(date).format('DD MMMM YYYY');
+                }
+            },
+            {
+                "data": "endDate",
+                'render': function (jsonDate) {
+                    var date = new Date(jsonDate);
+                    return moment(date).format('DD MMMM YYYY');
+                }
+            }
+        ]
+    });
+});
+
 function ClearScreen() {
     $('#Id').val('');
     $('#Name').val('');
@@ -61,7 +102,7 @@ function ClearScreen() {
 }
 
 function GetById(number) {
-    //debugger;
+    debugger;
     var id = table.row(number).data().id;
     $.ajax({
         url: "/events/GetById/",
@@ -69,8 +110,8 @@ function GetById(number) {
     }).then((result) => {
         debugger;
         $('#Name').val(result.name);
-        $('#StartDate').val(result.startDate);
-        $('#EndDate').val(result.endDate);
+        $('#StartDate').val(moment(result.startDate).format('dd/mm/yyyy'));
+        $('#EndDate').val(moment(result.endDate).format('dd/mm/yyyy'));
         $('#add').hide();
         $('#update').show();
         $('#myModal').modal('show');
@@ -97,6 +138,12 @@ function Save() {
     item.Name = $('#Name').val();
     item.StartDate = $('#StartDate').val();
     item.EndDate = $('#EndDate').val();
+
+    if (moment(item.StartDate) > moment(item.EndDate)) {
+        return swal.fire('Error', 'Start date is behind end date', 'error');
+            ClearScreen();
+        }
+    
     $.ajax({
         url: "/events/insert/",
         type: "POST",
@@ -120,7 +167,8 @@ function Save() {
     })
 }
 
-function Update(id) {
+function Update(number) {
+    debugger;
     var id = table.row(number).data().id;
     var item = new Object();
     item.Name = $('#Name').val();
