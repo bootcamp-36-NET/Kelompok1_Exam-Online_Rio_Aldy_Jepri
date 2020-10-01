@@ -3,8 +3,10 @@
 @{
     ViewData["Title"] = "ExamPage";
     Layout = "~/Views/Layout/_Layout.cshtml";
-    var num = 1;
-
+    var endTime = ((DateTime)ViewBag.TimeExpired);
+    var timeRemaining = TimeSpan.FromTicks(endTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
+    timeRemaining = Convert.ToInt64(timeRemaining);
+    var QNO = (@Model.QuestionNummber + 1);
 }
 
 <h2>ExamPage</h2>
@@ -13,6 +15,9 @@
     <!-- Modal -->
     <div class="page-heading">
         <h1 class="page-title">Examination</h1>
+        <div>
+            Time Remaining : <span id="minRemaining"></span>&nbsp; Minute(s) : <span id="secRemaining"></span>&nbsp; Second(s)
+        </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/"><i class="la la-home font-20"></i></a>
@@ -37,7 +42,7 @@
                             <form method="post" action="/examinations/submit/">
                                 <table>
                                     <tr>
-                                        <td><button class="btn btn-primary">Submit & Back</button></td>
+                                        <td><button class="btn btn-primary" >Submit & Back</button></td>
                                         @for (int i = 0; i < 10; i++)
                                         {
                                             <td>
@@ -51,7 +56,7 @@
 
                                 <div>
                                     <p>
-                                        @Model.QuestionNummber <a>. </a> </a> @Html.Raw(Model.Question.Questions)
+                                        @QNO<a>. </a> </a> @Html.Raw(Model.Question.Questions)
                                     </p>
                                 </div>
                                 <div>
@@ -90,4 +95,27 @@
             </div>
         </div>
 
-        
+        <script>
+            var remSeconds = @timeRemaining;
+            var secondsCounter = remSeconds % 60;
+            function startTick() {
+                document.getElementById('secRemaining').innerText = secondsCounter;
+                document.getElementById('minRemaining').innerText = parseInt(remSeconds/60);
+                var _tick = setInterval(function () {
+                    if (remSeconds > 0) {
+                        remSeconds = remSeconds - 1;
+                        secondsCounter = secondsCounter - 1;
+                        document.getElementById('secRemaining').innerText = secondsCounter;
+                        document.getElementById('minRemaining').innerText = parseInt(remSeconds / 60);
+                        if (secondsCounter == 0) {
+                            secondsCounter = 60;
+                        }
+                    }
+                    else {
+                        alert('Yout Examination is Oveer');
+                        clearInterval(_tick);
+                    }
+                }, 1000);
+            }
+            startTick();
+        </script>

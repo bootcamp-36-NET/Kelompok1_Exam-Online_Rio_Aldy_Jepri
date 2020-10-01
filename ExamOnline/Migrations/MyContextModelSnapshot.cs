@@ -88,6 +88,8 @@ namespace ExamOnline.Migrations
 
                     b.Property<string>("EmployeeId");
 
+                    b.Property<DateTime?>("ExpiredDate");
+
                     b.Property<DateTimeOffset?>("RescheduleDate");
 
                     b.Property<int>("Score");

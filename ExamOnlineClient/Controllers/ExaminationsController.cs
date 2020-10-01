@@ -16,6 +16,8 @@ namespace ExamOnlineClient.Controllers
 {
     public class ExaminationsController : Controller 
     {
+        public int cek { get; set; }
+        public DateTime time { get; set; }
         readonly HttpClient client = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:44376/api/")
@@ -34,44 +36,31 @@ namespace ExamOnlineClient.Controllers
             return View();
         }
 
-        public IActionResult Examination()
-        {
-            List<Answer> answers = null;
-            var id = "74a050c2-b9db-443e-9331-dbc9242e56bd";
-            var resTask = client.GetAsync("examinations/loadsoal/" + id);
-            resTask.Wait();
-            var result = resTask.Result;
-            if (result.IsSuccessStatusCode)
-            {
-                var readTask = result.Content.ReadAsAsync<List<Answer>>();
-                readTask.Wait();
-                answers = readTask.Result;
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Server Error.");
-            }
-            return View(answers);
-        }
-
         public IActionResult start(int qno)
         {
-            return RedirectToAction("ExamPage", qno);
+            var id = HttpContext.Session.GetString("examid");
+            Examination examination = new Examination();
+            examination.Id = id;
+            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(600);
+            InsertOrUpdate(examination,id);
+            this.cek = 0;
+            var result = StatusCode(200);
+            return result;
         }
-
-
-        //[BindProperty(SupportsGet = true)]
-        //public List<Answer> answ { get; set; }
-
-        //[BindProperty(SupportsGet = true)]
-        //public Answer answer { get; set; }
-
-
         public IActionResult ExamPage(int qno)
         {
+            if (qno > 9)
+            {
+                qno = 9;
+            }else if(qno < 0)
+            {
+                qno = 0;
+            }
+
+            var direction = ViewBag.direction;
             List<Answer> answ = null;
             ExA ExA = new ExA(); 
-            var id = "74a050c2-b9db-443e-9331-dbc9242e56bd";
+            var id = HttpContext.Session.GetString("examid");
             var resTask = client.GetAsync("examinations/loadsoal/" + id);
             resTask.Wait();
             var result = resTask.Result;
@@ -95,13 +84,20 @@ namespace ExamOnlineClient.Controllers
             ExA.ExamId = answer.ExamId;
             ExA.Examination = answer.Examination;
             ExA.QuestionNummber = qno;
-            return View(ExA);
+            ViewBag.TimeExpired = answer.Examination.ExpiredDate;
+            var available = DateTime.Compare(DateTime.UtcNow, answer.Examination.ExpiredDate.Value.AddMinutes(600));
+            var created = answer.Examination.CreatedDate.UtcDateTime;
+            var available2 = DateTime.Compare(DateTime.UtcNow, created.AddHours(6));
+            if ( available < 0 && available2 < 0)
+            {
+                return View(ExA);
+            }
+            return Redirect("/examinations/userindex/");
         }
 
         [HttpPost]
         public IActionResult Submit(ExA ExA)
         {
-            var a = "";
             var qno = ExA.QuestionNummber + 1;
             Answer answer = new Answer();
             answer.Id = ExA.Id;

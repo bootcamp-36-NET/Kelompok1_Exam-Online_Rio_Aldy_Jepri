@@ -28,7 +28,11 @@ namespace ExamOnline.Controllers
         public async Task<ActionResult<int>> Update(string id, Examination entity)
         {
             var getId = await _repository.GetById(id);
-            if (entity.EmployeeId == null)
+            if (entity.ExpiredDate != null && getId.ExpiredDate == null)
+            {
+                getId.ExpiredDate = entity.ExpiredDate;
+            }
+            else if (entity.EmployeeId == null)
             {
                 getId.RescheduleDate = entity.RescheduleDate;
             }
@@ -74,7 +78,7 @@ namespace ExamOnline.Controllers
         [Route("loadsoal/{id}")]
         public async Task<ActionResult> LoadSoal(string id)
         {
-            var examination = await _context.Answer.Include("Question").Where(x => x.ExamId == id).ToListAsync();
+            var examination = await _context.Answer.Include("Question").Include("Examination").Where(x => x.ExamId == id).ToListAsync();
             return Ok(examination);
         }
     }

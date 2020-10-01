@@ -22,10 +22,10 @@ function ExamPage() {
     debugger;
     var qno = 1;
     $.ajax({
-        url: "/examinations/exampage/",
+        url: "/examinations/start/",
         data: { qno: qno }
     }).then((result) => {
-
+        window.location.href = "/examinations/exampage/";
     })
 }
 
