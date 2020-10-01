@@ -59,7 +59,7 @@ namespace ExamOnlineClient.Controllers
             {
                 var readTask = result.Content.ReadAsAsync<List<Question>>();
                 readTask.Wait();
-                question = readTask.Result;
+                question = readTask.Result; 
             }
             else
             {

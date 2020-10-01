@@ -36,6 +36,34 @@ $(document).ready(function () {
     });
 });
 
+
+var _table = null;
+
+$(document).ready(function () {
+    debugger;
+    _table = $('#subjectTrainer').DataTable({
+        "processing": true,
+        "responsive": true,
+        "pagination": true,
+        "stateSave": true,
+        "ajax": {
+            url: "/subjects/Load/",
+            type: "GET",
+            dataType: "json",
+            dataSrc: ""
+        },
+        "columns": [
+            {
+                "data": "id",
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            { "data": "name" }
+        ]
+    });
+});
+
 function ClearScreen() {
     $('#Id').val('');
     $('#Name').val('');

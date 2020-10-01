@@ -50,15 +50,15 @@ namespace ExamOnline.Controllers
         }
 
         [HttpPut("emp/")]
-        public ActionResult DeleteUser(EventDetails eventDetailsVM)
+        public ActionResult DeleteUser(EventDetails eventDetails)
         {
-            if(eventDetailsVM == null)
+            if(eventDetails == null)
             {
                 return BadRequest("Data empty");
             }
             else
             {
-                int deletedItem = _repo.DeleteUser(eventDetailsVM);
+                int deletedItem = _repo.DeleteUser(eventDetails);
                 if(deletedItem > 0)
                 {
                     return Ok("Data deleted");

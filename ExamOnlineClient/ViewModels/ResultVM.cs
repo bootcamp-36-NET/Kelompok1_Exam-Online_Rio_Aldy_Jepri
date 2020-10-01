@@ -7,9 +7,10 @@ namespace ExamOnlineClient.ViewModels
 {
     public class ResultVM
     {
-        public string EmployeeId { set; get; }
-        public string Score { set; get; }
-        public string Subject { set; get; }
-        public DateTimeOffset examDate { set; get; }
+        public string id { get; set; }
+        public string nama { get; set; }
+        public string subject { get; set; }
+        public DateTimeOffset createDate { get; set; }
+        public int score { get; set; }
     }
 }

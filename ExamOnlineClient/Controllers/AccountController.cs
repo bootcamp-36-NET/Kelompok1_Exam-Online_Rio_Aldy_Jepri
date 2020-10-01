@@ -17,10 +17,6 @@ namespace ExamOnlineClient.Controllers
         {
             BaseAddress = new Uri("http://winarto-001-site1.dtempurl.com/api/")
         };
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [Route("login")]
         public IActionResult Login()
@@ -33,6 +29,17 @@ namespace ExamOnlineClient.Controllers
         {
             HttpContext.Session.Clear();
             return Redirect("/login");
+        }
+        [Route("profile")]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [Route("notfound")]
+        public IActionResult Notfound()
+        {
+            return View();
         }
 
         public IActionResult Login(LoginVM loginVM)
@@ -57,10 +64,10 @@ namespace ExamOnlineClient.Controllers
                 var account = JsonConvert.DeserializeObject<AccountVM>(jwtPayloadSer);
                 //var isVerified = token.Claims.First(c => c.Type == "IsVerified").Value;
 
-                HttpContext.Session.SetString("id", account.Id);
-                HttpContext.Session.SetString("email", account.Name);
-                HttpContext.Session.SetString("role", account.RoleName);
-                HttpContext.Session.SetString("name", account.Name);
+                HttpContext.Session.SetString("id", account.Id); // emp id
+                HttpContext.Session.SetString("email", account.Name); // email 
+                HttpContext.Session.SetString("role", account.RoleName); // role
+                HttpContext.Session.SetString("name", account.Name); // nama
                 //HttpContext.Session.SetString("verified", token.Claims.First(c => c.Type == "IsVerified").Value);
                 //HttpContext.Session.SetString("JWToken", authToken);
 

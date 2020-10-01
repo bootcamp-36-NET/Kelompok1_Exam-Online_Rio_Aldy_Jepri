@@ -14,78 +14,28 @@ namespace ExamOnline.Repositories.Data
         private MyContext _context;
         public NotifRepo(MyContext context) : base(context)
         {
-            this._context = context;
-        }
-        
-        public override async Task<int> Create(Notifications notifications)
-        {
-            if(notifications == null)
-            {
-                return 0;
-            }
-            else
-            {
-                Notifications item = new Notifications()
-                {
-                    EmployeeId = notifications.EmployeeId,
-                    Message = notifications.EmployeeId + " mengajukan untuk reschedule exam pada " + notifications.RequestedDate.Date,
-                    CreatedDate = DateTimeOffset.Now,
-                    RequestedDate = notifications.RequestedDate
-                    
-                };
-
-                int saveProcess = await base.Create(item);
-                
-                if(saveProcess == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return saveProcess;
-                }
-                
-            }
+            _context = context;
         }
 
 
-        public List<Notifications> GetByEmployeeId(string Id)
+        public override async Task<List<Notifications>> GetAll()
         {
-            List<Notifications> notifList = null;
-
-            notifList = _context.notifications.Where(x => x.EmployeeId == Id).ToList();
-            
-            if(notifList == null)
+            List<Notifications> list = new List<Notifications>();
+            var data = await _context.Notifications.Where(x => x.isDelete == false).ToListAsync();
+            if (data.Count == 0)
             {
                 return null;
             }
-            return notifList;
+            return data;
         }
-
-        public Notifications ReadNotification(string Id)
+        public override async Task<Notifications> GetById(string Id)
         {
-            var item = _context.notifications.Where(x => x.Id == Id).SingleOrDefault();
-            
-            if(item == null)
+            var data = await _context.Notifications.SingleOrDefaultAsync(x => x.Id == Id && x.isDelete == false);
+            if (!data.Equals(0))
             {
-                return null;
+                return data;
             }
-            else
-            {
-                item.isDelete = true;
-
-                var updatedItem = _context.notifications.Update(item);
-                if(updatedItem == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    _context.SaveChanges();
-                    return item;
-                }
-                
-            }
+            return null;
         }
     }
 }

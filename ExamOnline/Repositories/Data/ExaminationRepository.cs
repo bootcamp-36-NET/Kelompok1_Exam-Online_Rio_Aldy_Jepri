@@ -32,11 +32,10 @@ namespace ExamOnline.Repositories.Data
 
         public override async Task<int> Create(Examination entity)
         {
-            
             entity.isDelete = false;
             await _context.Set<Examination>().AddAsync(entity);
             var createdItem = await _context.SaveChangesAsync();
-            var list = _context.Question.ToArray();
+            var list = _context.Question.Where(x => x.SubjectId == entity.SubjectId).ToArray();
             var eof = list.Length;
             string[] qid = new string[10];
             bool cek = false;

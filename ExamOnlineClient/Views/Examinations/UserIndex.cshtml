@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "UserIndex";
     Layout = "~/Views/Layout/_Layout.cshtml";
@@ -10,7 +10,7 @@
     <!-- START PAGE CONTENT-->
     <!-- Modal -->
     <div class="page-heading">
-        <h1 class="page-title">Manage Job List</h1>
+        <h1 class="page-title">Online Examination</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/"><i class="la la-home font-20"></i></a>
@@ -29,8 +29,7 @@
                                placeholder="" id="Id" />
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" for="EmployeeId">Employee ID : </label>
-                        <a id="EmployeeId"></a>
+                        <label class="form-control-label">Employee ID : @Context.Session.GetString("name")</label>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -51,7 +50,8 @@
                     &nbsp;&nbsp;&nbsp;
                     <button data-toggle="tooltip" data-placement="right" data-animation="false" title="Add">
                         <i class="fa fa-clock-o"></i>
-                    </button> <a> Reschedule
+                    </button> <a> Reschedule</a>
+                    <button type="button" id="ExamPage" onclick="ExamPage();" class="btn btn-success button button4">Start</button>
                 </div>
             </div>
         </div>
@@ -76,6 +76,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="Update" onclick="Update();" data-dismiss="modal" class="btn btn-success button button4">Edit</button>
+                    
                     <button type="button" data-dismiss="modal" class="btn btn-warning button button4">Cancel</button>
                 </div>
             </div>

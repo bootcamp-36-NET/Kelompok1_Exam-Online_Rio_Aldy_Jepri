@@ -3,7 +3,7 @@ var nb = 0;
 
 $(document).ready(function () {
     debugger;
-    table = $("#ManageQuestions").DataTable({
+    table = $("#Reschedule").DataTable({
         "processing": true,
         "responsive": true,
         "pagination": true,
@@ -42,9 +42,7 @@ $(document).ready(function () {
                 "sortable": false,
                 "render": function (data, type, row, meta) {
                     $('[data-toggle="tooltip"]').tooltip();
-                    return '<button class="btn btn-outline-success btn-circle" data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return Approve(' + meta.row + ')" ><i class="fa fa-lg fa-check"></i></button>'
-                        + '&nbsp;'
-                        + '<button class="btn btn-outline-danger btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Reject(' + meta.row + ')" ><i class="fa fa-lg fa-times"></i></button>'
+                    return '<button class="btn btn-outline-info btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Detail" onclick="return GetById(' + meta.row + ')" ><i class="fa fa-lg fa-info"></i></button>'
                 }
             }
         ],
@@ -57,8 +55,10 @@ $(document).ready(function () {
 function ClearScreen() {
     LoadTrainee($('#TraineeOption'));
     $('#Id').val('');
-    $('#TraineeOption').val('0');
+    $('#TraineeOption').val('0');  
     $('#Name').val('');
+    $('#Subject').val('');
+    $('#Res').val('');
     $('#Update').hide();
     $('#Insert').show();
 }
@@ -71,69 +71,72 @@ function GetById(number) {
         data: { id: id }
     }).then((result) => {
         debugger;
+        $('#Id').append(result.id);
+        $('#Name').append(result.employeeId);
+        $('#Res').append(result.rescheduleDate);
+
+        $('#Name').val(result.employeeId);
         $('#Id').val(result.id);
-        $('#SubjectsOption').val(result.subjectId);
-        $('#TraineeOption').val(result.employeeId);
-        $('#Schedule').val(result.createdDate);
-        $('#Insert').hide();
         $('#Update').show();
-        $('#exampleModal').modal('show');
+        $('#myModal').modal('show');
     })
 }
 
 
-function approve(nummber) {
+function approve() {
     debugger;
-    var id = table.row(nummber).data().id;
+    var Acc = new Object();
+    Acc.id = $('#Id').val();
+    Acc.employeeId = $('#Name').val();
     $.ajax({
-        type: 'post',
-        url: "/examinations/approve/",
+        type: 'POST',
+        url: "/examinations/Approve/",
         cache: false,
-        datatype: "json",
-        data: acc
+        dataType: "JSON",
+        data: Acc
     }).then((result) => {
-        //debugger;
-        if (result.statuscode == 200) {
-            swal.fire({
+        debugger;
+        if (result.statusCode == 200) {
+            Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'jobseeker has been approved',
-                showconfirmbutton: false,
-                timer: 1500,
+                title: 'Reschedule Has Been Approved',
+                showConfirmButton: false,
+                timer: 1500
             });
             table.ajax.reload(null, false);
         } else {
-            swal.fire('error', 'failed to approved', 'error');
-            clearscreen();
+            Swal.fire('Error', 'Failed to Approved', 'error');
+            ClearScreen();
         }
     })
 }
 
 function reject() {
     debugger;
-    var acc = new object();
-    acc.id = $('#id').val();
-    acc.employeeId = $('#name').val();
+    var acc = new Object();
+    acc.id = $('#Id').val();
+    acc.employeeId = $('#Name').val();
     $.ajax({
-        type: 'post',
-        url: "/examinations/reject/",
+        type: 'POST',
+        url: "/examinations/Reject/",
         cache: false,
         datatype: "json",
         data: acc
     }).then((result) => {
-        //debugger;
-        if (result.statuscode == 200) {
-            swal.fire({
+        debugger;
+        if (result.statusCode == 200) {
+            Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'jobseeker has been rejecct',
-                showconfirmbutton: false,
-                timer: 1500,
+                title: 'Reschedule Has Been Rejected',
+                showConfirmButton: false,
+                timer: 1500
             });
             table.ajax.reload(null, false);
         } else {
-            swal.fire('error', 'failed to reject', 'error');
-            clearscreen();
+            Swal.fire('Error', 'Failed to Approved', 'error');
+            ClearScreen();
         }
     })
 }

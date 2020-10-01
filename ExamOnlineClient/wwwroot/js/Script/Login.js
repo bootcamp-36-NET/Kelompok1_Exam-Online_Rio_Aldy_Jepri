@@ -22,7 +22,7 @@ function Login() {
         dataType: "JSON"
     }).then((result) => {
         if (result.Item1.StatusCode === 200) {
-            window.location.href = "/examinations";
+            window.location.href = "/Examinations";
         } else {
             Swal.fire('Error', result.Item2, 'error');
         }

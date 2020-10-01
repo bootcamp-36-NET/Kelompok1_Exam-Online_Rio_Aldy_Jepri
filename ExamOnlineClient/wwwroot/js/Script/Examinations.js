@@ -1,4 +1,4 @@
-﻿﻿var table = null;
+﻿var table = null;
 var arrTrainee = [];
 var arrSubjects = [];
 
@@ -293,6 +293,8 @@ function GetById(number) {
         $('#exampleModal').modal('show');
     })
 }
+
+
 
 function Update() {
     debugger;

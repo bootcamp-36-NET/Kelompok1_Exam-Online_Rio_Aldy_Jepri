@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ExamOnline.Context;
-using ExamOnline.ViewModels;
+using ExamOnline.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +15,6 @@ namespace ExamOnline.Controllers
     [ApiController]
     public class RescheduleController : ControllerBase
     {
-        readonly HttpClient API = new HttpClient
-        {
-            BaseAddress = new Uri("http://winarto-001-site1.dtempurl.com/api/")
-        };
-
         private readonly MyContext _context;
 
 
@@ -29,9 +24,9 @@ namespace ExamOnline.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ExaminationVM>> GetAll()
+        public async Task<List<Examination>> GetAll()
         {
-            List<ExaminationVM> list = new List<ExaminationVM>();
+            List<Examination> list = new List<Examination>();
 
             var getData = await _context.Examinations.Include("Subjects").Where(Q => Q.RescheduleDate != null && Q.isDelete == false).ToListAsync();
 
@@ -41,7 +36,7 @@ namespace ExamOnline.Controllers
             }
             foreach (var item in getData)
             {
-                var user = new ExaminationVM()
+                var user = new Examination()
                 {
                     Id = item.Id,
                     EmployeeId = item.EmployeeId,
@@ -54,5 +49,68 @@ namespace ExamOnline.Controllers
             }
             return list;
         }
+        [HttpPost]
+        [Route("Approve")]
+        public IActionResult Approve(Examination examination)
+        {
+            if (ModelState.IsValid)
+            {
+                var jobsid = _context.Examinations.Include("Subjects").Where(r => r.Id == examination.Id).FirstOrDefault();
+                var nottif = _context.Notifications.FirstOrDefault(x => x.EmployeeId == examination.EmployeeId);
+
+                var newdate = jobsid.RescheduleDate;
+                jobsid.CreatedDate = newdate.Value;
+                jobsid.RescheduleDate = null;
+
+                if(nottif == null)
+                {
+                    var notif = new Notifications();
+                    notif.EmployeeId = jobsid.EmployeeId;
+                    notif.CreatedDate = DateTimeOffset.Now;
+                    notif.Message = "Your Reschedule has approved";
+
+                    _context.Notifications.Add(notif);
+                }
+                else
+                {
+                    nottif.Message = "Your Reschedule has approved";
+                }
+                
+                _context.SaveChanges();
+                return Ok("Successfully Sent");
+            }
+            return BadRequest("Not Successfully");
+        }
+
+        [HttpPost]
+        [Route("Reject")]
+        public IActionResult Reject(Examination examination)
+        {
+            if (ModelState.IsValid)
+            {
+                var jobsid = _context.Examinations.Include("Subjects").Where(r => r.Id == examination.Id).FirstOrDefault();
+                var nottif = _context.Notifications.FirstOrDefault(x => x.EmployeeId == examination.EmployeeId);
+
+                jobsid.RescheduleDate = null;
+
+                if (nottif == null)
+                {
+                    var notif = new Notifications();
+                    notif.EmployeeId = jobsid.EmployeeId;
+                    notif.CreatedDate = DateTimeOffset.Now;
+                    notif.Message = "Your Reschedule has Rejected";
+
+                    _context.Notifications.Add(notif);
+                }
+                else
+                {
+                    nottif.Message = "Your Reschedule has Rejected";
+                }
+                _context.SaveChanges();
+                return Ok("Successfully Sent");
+            }
+            return BadRequest("Not Successfully");
+        }
+
     }
 }
