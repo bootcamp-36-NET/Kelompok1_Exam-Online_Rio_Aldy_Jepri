@@ -35,7 +35,7 @@ namespace ExamOnline.Repositories.Data
             entity.isDelete = false;
             await _context.Set<Examination>().AddAsync(entity);
             var createdItem = await _context.SaveChangesAsync();
-            var list = _context.Question.Where(x => x.SubjectId == entity.SubjectId).ToArray();
+            var list = _context.Question.Where(x => x.SubjectId == entity.SubjectId && x.isDelete == false).ToArray();
             var eof = list.Length;
             string[] qid = new string[10];
             bool cek = false;

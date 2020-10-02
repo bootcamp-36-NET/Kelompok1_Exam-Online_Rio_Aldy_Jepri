@@ -40,7 +40,6 @@ $(document).ready(function () {
 
 
 var _table = null;
-var arrEmployee = [];
 
 $(document).ready(function () {
     //debugger;
@@ -64,7 +63,14 @@ $(document).ready(function () {
             },
             { "data": "name" },
             { "data": "nik" },
-            { "data": "roleName" }
+            { "data": "roleName" },
+            {
+                "sortable": false,
+                "render": function (data, type, row, meta) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    return '<button class="btn btn-outline-info btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Exam Result" onclick="return GetExam2(' + meta.row + ')" ><i class="fa fa-lg fa-eye"></i></button>'
+                }
+            }
         ]
     });
 });
@@ -153,6 +159,18 @@ function Save() {
 function GetExam(number) {
     //debugger;
     var id = table.row(number).data().id;
+    $.ajax({
+        url: "/eventdetails/GoToExam",
+        type: 'post',
+        data: { id: id }
+    }).then((result) => {
+        window.location.href = "/resulttrainer";
+    })
+}
+
+function GetExam2(number) {
+    //debugger;
+    var id = _table.row(number).data().id;
     $.ajax({
         url: "/eventdetails/GoToExam",
         type: 'post',

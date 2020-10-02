@@ -24,7 +24,7 @@ $(document).ready(function () {
         fixedColumns: true,
         "columns": [
             { "data": null },
-            { "data": "employeeId" },
+            { "data": "employeeName" },
             { "data": "subjects.name" },
             {
                 "data": "createdDate",
@@ -68,7 +68,7 @@ $(document).ready(function () {
                 title: 'Division List',
                 filename: 'cek ' + moment(),
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4],
+                    columns: [1, 2, 3, 4],
                     search: 'applied',
                     order: 'applied',
                     modifier: {
@@ -82,8 +82,8 @@ $(document).ready(function () {
                         doc.content[1].table.body[i][2].alignment = 'center';
                     };
                     doc.content[1].table.body[0][0].text = 'No.';
-                    doc.content[1].table.body[0][2].text = 'Divisions';
-                    doc.content[1].table.body[0][2].text = 'Departments';
+                    doc.content[1].table.body[0][2].text = 'Trainee Name';
+                    doc.content[1].table.body[0][2].text = 'Subject';
                     doc['footer'] = (function (page, pages) {
                         return {
                             columns: [

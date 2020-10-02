@@ -14,7 +14,8 @@ function loadData() {
         $('#Id').append(result.id);
         $('#Message').append(result.message);
         $('#Emp').append(result.nama);
-        $('#Date').append(result.createdDate);  
+        var date = moment(result.createdDate).format("DD MMMM YYYY, h:mm:ss a");
+        $('#Date').append(date);  
     });
 }
 
