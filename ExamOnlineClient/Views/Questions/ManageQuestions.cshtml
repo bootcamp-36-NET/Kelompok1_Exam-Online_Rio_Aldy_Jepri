@@ -21,12 +21,6 @@
                     <form>
                         <div class="row-no-gutters">
                             <input type="text" id="Id" name="Id" class="form-control" hidden>
-                            <div class="col-sm-12 ">
-                                <div class="form-group form-group-default">
-                                    <label>Subject<small style="color:red">*</small></label>
-                                    <select class="form-control" id="SubOption" name="SubOption" required></select>
-                                </div>
-                            </div>
                             <div class="col-sm-12">
                                 <div class="form-group form-group-default">
                                     <label>Question<small style="color:red">*</small></label>
@@ -36,6 +30,18 @@
 
                         </div>
                         <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group form-group-default">
+                                    <label>Subject<small style="color:red">*</small></label>
+                                    <select class="form-control" id="SubOption" name="SubOption" required></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group form-group-default">
+                                    <label>Subject<small style="color:red">*</small></label>
+                                    <select class="form-control" id="SectionOption" name="SectionOption" required></select>
+                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-group-default">
                                     <label>Option A<small style="color:red">*</small></label>
@@ -117,6 +123,7 @@
                             <th width="10">No</th>
                             <th width="50">Questions</th>
                             <th width="10">Subject</th>
+                            <th width="10">Section</th>
                             <th width="50">Option A</th>
                             <th width="50">Option B</th>
                             <th width="50">Option C</th>
