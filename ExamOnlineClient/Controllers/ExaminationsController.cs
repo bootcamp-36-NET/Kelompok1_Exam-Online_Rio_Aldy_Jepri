@@ -53,7 +53,7 @@ namespace ExamOnlineClient.Controllers
             var id = HttpContext.Session.GetString("examid");
             Examination examination = new Examination();
             examination.Id = id;
-            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(600);
+            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(6000);
             InsertOrUpdate(examination,id);
             this.cek = 0;
             var result = StatusCode(200);
@@ -98,7 +98,7 @@ namespace ExamOnlineClient.Controllers
             ExA.QuestionNummber = qno;
             ViewBag.TimeExpired = answer.Examination.ExpiredDate;
             var date1 = DateTime.UtcNow;
-            var date2 = answer.Examination.ExpiredDate.Value.AddMinutes(10);
+            var date2 = answer.Examination.ExpiredDate.Value;
             var date3 = answer.Examination.CreatedDate.UtcDateTime;
             var available = DateTime.Compare(date1 , date2);
             var created = answer.Examination.CreatedDate.UtcDateTime;
