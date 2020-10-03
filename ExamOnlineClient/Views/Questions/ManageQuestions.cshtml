@@ -4,12 +4,6 @@
     Layout = "~/Views/Layout/_Layout.cshtml";
 }
 
-<style>
-    table {
-        table-layout: fixed;
-        width: 100%;
-    }
-</style>
 <div class="content-wrapper">
     <!-- START PAGE CONTENT-->
     <!-- Modal -->
@@ -17,7 +11,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header no-bd">
-                    <h5 class="modal-title"><span class="fw-mediumbold">Job List</span></h5>
+                    <h5 class="modal-title"><span class="fw-mediumbold">Questions</span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -25,64 +19,73 @@
 
                 <div class="modal-body">
                     <form>
-                        <div class="row">
+                        <div class="row-no-gutters">
                             <input type="text" id="Id" name="Id" class="form-control" hidden>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 ">
                                 <div class="form-group form-group-default">
-                                    <label>Subject</label>
-                                    <select class="form-control" id="SubOption" name="SubOption"></select>
+                                    <label>Subject<small style="color:red">*</small></label>
+                                    <select class="form-control" id="SubOption" name="SubOption" required></select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group form-group-default">
-                                    <label>Question</label>
-                                    <input type="text" id="QuestionDetail" name="QuestionDetail" class="form-control" placeholder="Question Detail">
+                                    <label>Question<small style="color:red">*</small></label>
+                                    <input type="text" id="QuestionDetail" name="QuestionDetail" class="form-control" placeholder="Question Detail" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Option A<small style="color:red">*</small></label>
+                                    <input type="text" id="OptionA" name="OptionA" class="form-control" placeholder="Option A" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Option B<small style="color:red">*</small></label>
+                                    <input type="text" id="OptionB" name="OptionB" class="form-control" placeholder="Option B" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Option C<small style="color:red">*</small></label>
+                                    <input type="text" id="OptionC" name="OptionC" class="form-control" placeholder="Option C" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Option D<small style="color:red">*</small></label>
+                                    <input type="text" id="OptionD" name="OptionD" class="form-control" placeholder="Option D" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Option E<small style="color:red">*</small></label>
+                                    <input type="text" id="OptionE" name="OptionE" class="form-control" placeholder="Option E" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Key<small style="color:red">*</small></label>
+                                    <input type="text" id="Key" name="Key" class="form-control" placeholder="Key" required>
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Option A</label>
-                                    <input type="text" id="OptionA" name="OptionA" class="form-control" placeholder="Option A">
-                                </div>
+                                <label><small style="color:red">*</small>Form must be filled in</label>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Option B</label>
-                                    <input type="text" id="OptionB" name="OptionB" class="form-control" placeholder="Option B">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Option C</label>
-                                    <input type="text" id="OptionC" name="OptionC" class="form-control" placeholder="Option C">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Option D</label>
-                                    <input type="text" id="OptionD" name="OptionD" class="form-control" placeholder="Option D">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Option E</label>
-                                    <input type="text" id="OptionE" name="OptionE" class="form-control" placeholder="Option E">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group form-group-default">
-                                    <label>Key</label>
-                                    <input type="text" id="Key" name="Key" class="form-control" placeholder="Key">
-                                </div>
-                            </div>
+                        </div>
+
+
+                        <div class="modal-footer no-bd">
+                            <button type="button" id="add" class="btn btn-outline-success" data-dismiss="modal" onclick="Save();">Insert</button>
+                            <button type="button" id="update" class="btn btn-outline-warning" data-dismiss="modal" onclick="Update();">Update</button>
+                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer no-bd">
-                    <button type="button" id="add" class="btn btn-outline-success" data-dismiss="modal" onclick="Save();">Insert</button>
-                    <button type="button" id="update" class="btn btn-outline-warning" data-dismiss="modal" onclick="Update();">Update</button>
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-                </div>
+                
             </div>
         </div>
     </div>
