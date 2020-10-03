@@ -94,7 +94,7 @@ namespace ExamOnlineClient.Controllers
                 employeeList = readTask.Result;
                 foreach (var employee in employeeList)
                 {
-                    if (employee.roleName == "Trainee" || employee.roleName == "Trainer")
+                    if (employee.roleName == "Trainee")
                     {
                         trainees.Add(employee);
                     }

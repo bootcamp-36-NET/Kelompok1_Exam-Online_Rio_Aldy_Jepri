@@ -15,7 +15,8 @@ function loadData() {
         id = result.Item1.Id;
         //$('#EmployeeId').html(result.Item1.EmployeeId);
         $('#Subject').html(result.Item1.Subjects.Name);
-        $('#CreatedDate').html(result.Item1.CreatedDate);
+        var date = moment(result.Item1.CreatedDate).format("DD MMMM YYYY, h:mm:ss a");
+        $('#CreatedDate').html(date);
     });
 }
 
