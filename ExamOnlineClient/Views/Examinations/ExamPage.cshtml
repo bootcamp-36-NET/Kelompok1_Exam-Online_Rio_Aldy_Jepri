@@ -7,8 +7,16 @@
     var timeRemaining = TimeSpan.FromTicks(endTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
     timeRemaining = Convert.ToInt64(timeRemaining);
     var QNO = (@Model.QuestionNummber + 1);
+    List<int> answewredList = new List<int>();    
 }
-
+<style>
+    div.ex1 {
+        background-color: white;
+        height: 150px;
+        width: 170px;
+        overflow-y: scroll;
+    }
+</style>
 <h2>ExamPage</h2>
 <div class="content-wrapper">
     <!-- START PAGE CONTENT-->
@@ -96,6 +104,12 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="ex1">
+                                @for (int i = 0; i < 50; i++)
+                                {
+                                        <a href="@Url.Action("exampage", "examinations", new { @qno = i} )" class="btn btn-primary" style="width: 35px; height:35px; margin-top: 5px;">@(i + 1)</a>
+                                }
+                            </div>
                         </dlv>
                     </div>
                     <hr>
@@ -103,6 +117,7 @@
             </div>
         </div>
     </div>
+</div>
     <script>
             var remSeconds = @timeRemaining;
             var secondsCounter = remSeconds % 60;
