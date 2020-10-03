@@ -9,6 +9,7 @@ $(document).ready(function () {
         "responsive": true,
         "pagination": true,
         "stateSave": true,
+        "scrollX": true,
         "ajax": {
             url: "/questions/loadquestion",
             type: "GET",
