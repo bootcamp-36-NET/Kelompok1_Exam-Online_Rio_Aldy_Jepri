@@ -48,7 +48,16 @@ namespace ExamOnlineClient.Controllers
             }
             return Redirect("/notfound");
         }
-        public IActionResult start(int qno)
+        public IActionResult UserSection()
+        {
+            var roleName = HttpContext.Session.GetString("role");
+            if (roleName == "Trainee")
+            {
+                return View();
+            }
+            return Redirect("/notfound");
+        }
+        public IActionResult start()
         {
             var id = HttpContext.Session.GetString("examid");
             Examination examination = new Examination();
@@ -59,17 +68,40 @@ namespace ExamOnlineClient.Controllers
             var result = StatusCode(200);
             return result;
         }
+
+        public IActionResult StartSection2()
+        {
+            var id = HttpContext.Session.GetString("examid");
+            HttpContext.Session.SetString("section", "Section2");
+            Examination examination = new Examination();
+            examination.Id = id;
+            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(6000);
+            InsertOrUpdate(examination, id);
+            this.cek = 0;
+            var result = StatusCode(200);
+            return result;
+        }
         public IActionResult ExamPage(int qno)
         {
+            //Validasi Pagination
             if (qno > 9)
             {
-                return Redirect("/result");
+                var sectioncek = HttpContext.Session.GetString("section");
+                if ( sectioncek == "Section1")
+                {
+                    return Redirect("/examinations/usersection");
+                }
+                else
+                {
+                    return Redirect("/notification");
+                }
+                
             }else if(qno < 0)
             {
                 qno = 0;
             }
 
-            var direction = ViewBag.direction;
+            //Load data soal
             List<Answer> answ = null;
             ExA ExA = new ExA(); 
             var id = HttpContext.Session.GetString("examid");
@@ -86,7 +118,38 @@ namespace ExamOnlineClient.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Server Error.");
             }
-            var answer = answ[qno];
+
+            var sectionsession = HttpContext.Session.GetString("section"); ;
+            Answer answer = null;
+            List<Answer> sectionAnswer = null;
+            if (sectionsession == "Section1")
+            {
+                //Masukan ID SECTION BASIC PROGRAMMING DISINI
+                sectionAnswer = answ.Where(x => x.Question.SectionId == "75f2211d-f36f-4f22-a859-f38ab6a19898").ToList();
+                Question question = null;
+                var resTask2 = client.GetAsync("questions/loadquestion/" + sectionAnswer[qno].QuestionId);
+                resTask2.Wait();
+                var result2 = resTask2.Result;
+                var json = JsonConvert.DeserializeObject(result2.Content.ReadAsStringAsync().Result).ToString();
+                question = JsonConvert.DeserializeObject<Question>(json);
+                answer = sectionAnswer[qno];
+                answer.Question = question;
+            }
+            else
+            {
+                //TAMBAHKAN SECTION OOP DI SINI
+                sectionAnswer = answ.Where(x => x.Question.SectionId == "0dbdea42-2eeb-4ad9-9456-be35207f146a").ToList();
+                Question question = null;
+                var resTask2 = client.GetAsync("questions/loadquestion/" + sectionAnswer[qno].QuestionId);
+                resTask2.Wait();
+                var result2 = resTask2.Result;
+                var json = JsonConvert.DeserializeObject(result2.Content.ReadAsStringAsync().Result).ToString();
+                question = JsonConvert.DeserializeObject<Question>(json);
+                answer = sectionAnswer[qno];
+                answer.Question = question;
+            }
+            //Set data soal
+            
             ExA.Id = answer.Id;
             ExA.QuestionId = answer.QuestionId;
             ExA.Question = answer.Question;
@@ -96,6 +159,8 @@ namespace ExamOnlineClient.Controllers
             ExA.ExamId = answer.ExamId;
             ExA.Examination = answer.Examination;
             ExA.QuestionNummber = qno;
+
+            //Validasi waktu ujian
             ViewBag.TimeExpired = answer.Examination.ExpiredDate;
             var date1 = DateTime.UtcNow;
             var date2 = answer.Examination.ExpiredDate.Value;

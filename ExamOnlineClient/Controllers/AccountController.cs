@@ -68,6 +68,7 @@ namespace ExamOnlineClient.Controllers
                 HttpContext.Session.SetString("email", account.Name); // email 
                 HttpContext.Session.SetString("role", account.RoleName); // role
                 HttpContext.Session.SetString("name", account.Name); // nama
+                HttpContext.Session.SetString("section", "Section1"); // nama
                 //HttpContext.Session.SetString("verified", token.Claims.First(c => c.Type == "IsVerified").Value);
                 //HttpContext.Session.SetString("JWToken", authToken);
 
