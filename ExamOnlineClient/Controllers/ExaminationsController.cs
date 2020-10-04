@@ -86,7 +86,16 @@ namespace ExamOnlineClient.Controllers
             //Validasi Pagination
             if (qno > 9)
             {
-                return Redirect("/examinations/usersection");
+                var sectioncek = HttpContext.Session.GetString("section");
+                if ( sectioncek == "Section1")
+                {
+                    return Redirect("/examinations/usersection");
+                }
+                else
+                {
+                    return Redirect("/notification");
+                }
+                
             }else if(qno < 0)
             {
                 qno = 0;
