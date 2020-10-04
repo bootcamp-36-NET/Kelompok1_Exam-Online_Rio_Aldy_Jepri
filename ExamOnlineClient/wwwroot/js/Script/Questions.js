@@ -9,6 +9,7 @@ $(document).ready(function () {
         "responsive": true,
         "pagination": true,
         "stateSave": true,
+        "scrollX": true,
         "ajax": {
             url: "/questions/loadquestion",
             type: "GET",
@@ -26,6 +27,7 @@ $(document).ready(function () {
             },
             { "data": "questions" },
             { "data": "subjects.name" },
+            { "data": "section.name" },
             { "data": "optionA" },
             { "data": "optionB" },
             { "data": "optionC" },
@@ -83,9 +85,37 @@ function renderDepart(element) {
         $option.append($('<option/>').val(val.id).text(val.name))
     });
 }
-
 LoadSubject($('#SubOption'))
 
+
+function LoadSection(element) {
+    //debugger;
+    if (arrSub.length === 0) {
+        $.ajax({
+            type: "Get",
+            url: "/sections/LoadSection",
+            success: function (data) {
+                arrSub = data;
+                renderDepart(element);
+            }
+        });
+    }
+    else {
+        renderDepart(element);
+    }
+}
+
+function renderDepart(element) {
+    var $option = $(element);
+    $option.empty();
+    $option.append($('<option/>').val('0').text('Select Section').hide());
+    $.each(arrSub, function (i, val) {
+        $option.append($('<option/>').val(val.id).text(val.name))
+    });
+}
+
+
+LoadSection($('#SectionOption'))
 
 function GetById(number) {
     debugger;

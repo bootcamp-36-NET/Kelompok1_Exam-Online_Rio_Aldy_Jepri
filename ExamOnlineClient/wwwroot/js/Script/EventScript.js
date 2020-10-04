@@ -87,6 +87,13 @@ $(document).ready(function () {
                     var date = new Date(jsonDate);
                     return moment(date).format('DD MMMM YYYY');
                 }
+            },
+            {
+                "sortable": false,
+                "render": function (data, type, row, meta) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    return '<button class="btn btn-outline-info btn-circle" data-placement="right" data-toggle="tooltip" data-animation="false" title="Exam Result" onclick="return GetEventDetails2(' + meta.row + ')" ><i class="fa fa-lg fa-eye"></i></button>'
+                }
             }
         ]
     });
@@ -104,6 +111,7 @@ function ClearScreen() {
 function GetById(number) {
     debugger;
     var id = table.row(number).data().id;
+    
     $.ajax({
         url: "/events/GetById/",
         data: {id : id}
@@ -129,6 +137,18 @@ function GetEventDetails(number) {
         window.location.href = "/eventdetails";
     })
 }
+
+function GetEventDetails2(number) {
+    //debugger;
+    var id = _table.row(number).data().id;
+    $.ajax({
+        url: "/events/GetEventDetails/",
+        type: 'post',
+        data: { id: id }
+    }).then((result) => {
+        window.location.href = "/eventdetails";
+    })
+}
     
 
 
@@ -140,7 +160,7 @@ function Save() {
     item.EndDate = $('#EndDate').val();
 
     if (moment(item.StartDate) > moment(item.EndDate)) {
-        return swal.fire('Error', 'Start date is behind end date', 'error');
+        return swal.fire('Error', 'End date is behind Start date', 'error');
             ClearScreen();
         }
     

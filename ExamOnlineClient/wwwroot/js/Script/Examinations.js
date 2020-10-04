@@ -24,7 +24,7 @@ $(document).ready(function () {
         fixedColumns: true,
         "columns": [
             { "data": null },
-            { "data": "employeeId" },
+            { "data": "employeeName" },
             { "data": "subjects.name" },
             {
                 "data": "createdDate",
@@ -68,7 +68,7 @@ $(document).ready(function () {
                 title: 'Division List',
                 filename: 'cek ' + moment(),
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4],
+                    columns: [1, 2, 3, 4],
                     search: 'applied',
                     order: 'applied',
                     modifier: {
@@ -82,8 +82,8 @@ $(document).ready(function () {
                         doc.content[1].table.body[i][2].alignment = 'center';
                     };
                     doc.content[1].table.body[0][0].text = 'No.';
-                    doc.content[1].table.body[0][2].text = 'Divisions';
-                    doc.content[1].table.body[0][2].text = 'Departments';
+                    doc.content[1].table.body[0][2].text = 'Trainee Name';
+                    doc.content[1].table.body[0][2].text = 'Subject';
                     doc['footer'] = (function (page, pages) {
                         return {
                             columns: [
@@ -185,7 +185,7 @@ function LoadSubjects(element) {
         });
     }
     else {
-        renderSubjetcs(element);
+        renderSubjects(element);
     }
 }
 
@@ -201,10 +201,9 @@ function renderSubjects(element) {
 LoadSubjects($('#SubjectsOption'));
 
 function ClearScreen() {
+    debugger;
     LoadTrainee($('#TraineeOption'));
-    $('#Id').val('');
-    $('#TraineeOption').val('0');
-    $('#Name').val('');
+    LoadSubjects($('#SubjectsOption'));
     $('#Update').hide();
     $('#Insert').show();
 }
@@ -247,33 +246,39 @@ function Delete(nummber) {
 
 function Save() {
     debugger;
-    var Examination = new Object();
-    Examination.Id = null;
-    Examination.CreatedDate = $('#Schedule').val();
-    Examination.EmployeeId = $('#TraineeOption').val();
-    Examination.SubjectId = $('#SubjectsOption').val();
-    $.ajax({
-        type: 'POST',
-        url: "/examinations/InsertOrUpdate/",
-        cache: false,
-        dataType: "JSON",
-        data: Examination
-    }).then((result) => {
-        debugger;
-        if (result.statusCode === 200) {
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Data inserted Successfully',
-                showConfirmButton: false,
-                timer: 1500
-            });
-            table.ajax.reload(null, false);
-        } else {
-            Swal.fire('Error', 'Failed to Input', 'error');
-            ClearScreen();
-        }
-    });
+    var a = validateForm();
+    if (a === false) {
+        Swal.fire('Please Fill All Field');
+        return true;
+    } else if(a === true) {
+        var Examination = new Object();
+        Examination.Id = null;
+        Examination.CreatedDate = $('#Schedule').val();
+        Examination.EmployeeId = $('#TraineeOption').val();
+        Examination.SubjectId = $('#SubjectsOption').val();
+        $.ajax({
+            type: 'POST',
+            url: "/examinations/InsertOrUpdate/",
+            cache: false,
+            dataType: "JSON",
+            data: Examination
+        }).then((result) => {
+            debugger;
+            if (result.statusCode === 200) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Data inserted Successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                table.ajax.reload(null, false);
+            } else {
+                Swal.fire('Error', 'Failed to Input', 'error');
+                ClearScreen();
+            }
+        });
+    }
 }
 
 function GetById(number) {
@@ -325,4 +330,17 @@ function Update() {
             ClearScreen();
         }
     })
+}
+
+
+function validateForm() {
+    debugger;
+    var a = $('#SubjectsOption').val();
+    var b = $('#TraineeOption').val();
+    var c = $('#Schedule').val();;
+    if (a === 0 || a === "0", b === 0 || b === "0", c === null || c === "") {
+        return false;
+    } else {
+        return true;
+    }
 }

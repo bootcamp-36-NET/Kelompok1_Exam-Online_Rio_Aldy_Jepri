@@ -15,15 +15,27 @@ function loadData() {
         id = result.Item1.Id;
         //$('#EmployeeId').html(result.Item1.EmployeeId);
         $('#Subject').html(result.Item1.Subjects.Name);
-        $('#CreatedDate').html(result.Item1.CreatedDate);
+        var date = moment(result.Item1.CreatedDate).format("DD MMMM YYYY, h:mm:ss a");
+        $('#CreatedDate').html(date);
     });
 }
 
 function ExamPage() {
     debugger;
-    var qno = 1;
+    var qno = 0;   
     $.ajax({
         url: "/examinations/start/",
+        data: { qno: qno }
+    }).then((result) => {
+        window.location.href = "/examinations/exampage/";
+    })
+}
+
+function ExamPage2() {
+    debugger;
+    var qno = 0;
+    $.ajax({
+        url: "/examinations/StartSection2/",
         data: { qno: qno }
     }).then((result) => {
         window.location.href = "/examinations/exampage/";

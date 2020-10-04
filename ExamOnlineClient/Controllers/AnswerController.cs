@@ -18,7 +18,12 @@ namespace ExamOnlineClient.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var roleName = HttpContext.Session.GetString("role");
+            if (roleName == "Admin" || roleName == "Trainer")
+            {
+                return View();
+            }
+            return Redirect("/notfound");
         }
 
         public async Task<JsonResult> Load()
