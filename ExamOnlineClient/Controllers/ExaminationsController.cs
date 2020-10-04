@@ -124,6 +124,7 @@ namespace ExamOnlineClient.Controllers
             List<Answer> sectionAnswer = null;
             if (sectionsession == "Section1")
             {
+                //Masukan ID SECTION BASIC PROGRAMMING DISINI
                 sectionAnswer = answ.Where(x => x.Question.SectionId == "75f2211d-f36f-4f22-a859-f38ab6a19898").ToList();
                 Question question = null;
                 var resTask2 = client.GetAsync("questions/loadquestion/" + sectionAnswer[qno].QuestionId);
@@ -136,6 +137,7 @@ namespace ExamOnlineClient.Controllers
             }
             else
             {
+                //TAMBAHKAN SECTION OOP DI SINI
                 sectionAnswer = answ.Where(x => x.Question.SectionId == "0dbdea42-2eeb-4ad9-9456-be35207f146a").ToList();
                 Question question = null;
                 var resTask2 = client.GetAsync("questions/loadquestion/" + sectionAnswer[qno].QuestionId);
