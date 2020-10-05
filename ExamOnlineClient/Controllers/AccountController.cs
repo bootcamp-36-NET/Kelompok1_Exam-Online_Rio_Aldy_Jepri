@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace ExamOnlineClient.Controllers
-{
+{                                   
     public class AccountController : Controller
     {
         readonly HttpClient client = new HttpClient
@@ -47,7 +47,7 @@ namespace ExamOnlineClient.Controllers
             string stringData = JsonConvert.SerializeObject(loginVM);
             var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
 
-            var resTask = client.PostAsync("auths/login", contentData);
+            var resTask = client.PostAsync("exams/login", contentData);
 
             var result = resTask.Result;
             var responseData = result.Content.ReadAsStringAsync().Result;

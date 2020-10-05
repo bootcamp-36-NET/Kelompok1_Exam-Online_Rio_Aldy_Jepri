@@ -62,7 +62,7 @@ namespace ExamOnlineClient.Controllers
             var id = HttpContext.Session.GetString("examid");
             Examination examination = new Examination();
             examination.Id = id;
-            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(6000);
+            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(600);
             InsertOrUpdate(examination,id);
             this.cek = 0;
             var result = StatusCode(200);
@@ -75,7 +75,7 @@ namespace ExamOnlineClient.Controllers
             HttpContext.Session.SetString("section", "Section2");
             Examination examination = new Examination();
             examination.Id = id;
-            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(6000);
+            examination.ExpiredDate = DateTime.UtcNow.AddSeconds(600);
             InsertOrUpdate(examination, id);
             this.cek = 0;
             var result = StatusCode(200);
@@ -93,7 +93,7 @@ namespace ExamOnlineClient.Controllers
                 }
                 else
                 {
-                    return Redirect("/notification");
+                    return Redirect("/ExamResult");
                 }
                 
             }else if(qno < 0)
@@ -125,7 +125,7 @@ namespace ExamOnlineClient.Controllers
             if (sectionsession == "Section1")
             {
                 //Masukan ID SECTION BASIC PROGRAMMING DISINI
-                sectionAnswer = answ.Where(x => x.Question.SectionId == "75f2211d-f36f-4f22-a859-f38ab6a19898").ToList();
+                sectionAnswer = answ.Where(x => x.Question.SectionId == "543f2732-7f2c-457e-8040-c37b7093a7ad").ToList();
                 Question question = null;
                 var resTask2 = client.GetAsync("questions/loadquestion/" + sectionAnswer[qno].QuestionId);
                 resTask2.Wait();
@@ -138,7 +138,7 @@ namespace ExamOnlineClient.Controllers
             else
             {
                 //TAMBAHKAN SECTION OOP DI SINI
-                sectionAnswer = answ.Where(x => x.Question.SectionId == "0dbdea42-2eeb-4ad9-9456-be35207f146a").ToList();
+                sectionAnswer = answ.Where(x => x.Question.SectionId == "73270830-2b1b-445e-879b-17096bef7b81").ToList();
                 Question question = null;
                 var resTask2 = client.GetAsync("questions/loadquestion/" + sectionAnswer[qno].QuestionId);
                 resTask2.Wait();
@@ -179,7 +179,7 @@ namespace ExamOnlineClient.Controllers
                 return Redirect("/notfound");
                 
             }
-            return Redirect("/result/");
+            return Redirect("/ExamResult");
         }
 
         [HttpPost]
@@ -221,7 +221,7 @@ namespace ExamOnlineClient.Controllers
             //var token = HttpContext.Session.GetString("token");
             //client.DefaultRequestHeaders.Add("Authorization", token);
             API.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("JWToken"));
-            var resTask = API.GetAsync("users");
+            var resTask = API.GetAsync("exams");
             resTask.Wait();
 
             var result = resTask.Result;

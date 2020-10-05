@@ -1,5 +1,8 @@
 ﻿@model ExamOnline.ViewModels.ExA
 @using Microsoft.AspNetCore.Http;
+@{ 
+    var section = @Context.Session.GetString("section");
+}
 @{
     ViewData["Title"] = "ExamPage";
     Layout = "~/Views/Layout/Layout2.cshtml";
@@ -7,7 +10,7 @@
     var timeRemaining = TimeSpan.FromTicks(endTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
     timeRemaining = Convert.ToInt64(timeRemaining);
     var QNO = (@Model.QuestionNummber + 1);
-    List<int> answewredList = new List<int>();    
+    List<int> answewredList = new List<int>();
 }
 <style>
     div.ex1 {
@@ -37,20 +40,27 @@
     }
 </style>
 <h2>ExamPage</h2>
-<div class="content-wrapper">
-    <!-- START PAGE CONTENT-->
-    <!-- Modal -->
-    <div class="page-heading">
-        <h1 class="page-title">Examination</h1>
-        <div>
-            Time Remaining : <span id="minRemaining"></span>&nbsp; Minute(s) : <span id="secRemaining"></span>&nbsp; Second(s)
-        </div>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/"><i class="la la-home font-20"></i></a>
-            </li>
-        </ol>
+<br />
+<br />
+<div class="page-heading">
+    @if (section == "Section1")
+    {
+        <h1 class="page-title">Examination Basic Programming</h1>
+    }
+    else
+    {
+        <h1 class="page-title">Examination Object Oriented Programming</h1>
+    }
+
+    <div>
+        Time Remaining : <span id="minRemaining"></span>&nbsp; Minute(s) : <span id="secRemaining"></span>&nbsp; Second(s)
     </div>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/"><i class="la la-home font-20"></i></a>
+        </li>
+    </ol>
+</div>
     <div class="page-content fade-in-up">
         <div class="ibox">
             @*<div class="ibox-head">
@@ -87,19 +97,19 @@
                                                 <input type="hidden" asp-for="Id" />
                                             </div>
                                             <div>
-                                                <a>A. </a> <input type="radio" id="optionA" name="Answers" asp-for="Answers" value=@Model.Question.OptionA /> <span>@Model.Question.OptionA</span>
+                                                <input type="radio" id="optionA" name="Answers" asp-for="Answers" value=@Model.Question.OptionA /><a> A. </a> <span>@Model.Question.OptionA</span>
                                             </div>
                                             <div>
-                                                <a>B. </a><input type="radio" id="optionB" name="Answers" asp-for="Answers" value=@Model.Question.OptionB /> <span>@Model.Question.OptionB</span>
+                                                <input type="radio" id="optionB" name="Answers" asp-for="Answers" value=@Model.Question.OptionB /><a> B. </a> <span>@Model.Question.OptionB</span>
                                             </div>
                                             <div>
-                                                <a>C. </a><input type="radio" id="optionC" name="Answers" asp-for="Answers" value=@Model.Question.OptionC /> <span>@Model.Question.OptionC</span>
+                                                <input type="radio" id="optionC" name="Answers" asp-for="Answers" value=@Model.Question.OptionC /><a> C. </a> <span>@Model.Question.OptionC</span>
                                             </div>
                                             <div>
-                                                <a>D. </a><input type="radio" id="optionD" name="Answers" asp-for="Answers" value=@Model.Question.OptionD /> <span>@Model.Question.OptionD</span>
+                                                <input type="radio" id="optionD" name="Answers" asp-for="Answers" value=@Model.Question.OptionD /><a> D. </a> <span>@Model.Question.OptionD</span>
                                             </div>
                                             <div>
-                                                <a>E. </a><input type="radio" id="optionE" name="Answers" asp-for="Answers" value=@Model.Question.OptionE /> <span>@Model.Question.OptionE</span>
+                                                <input type="radio" id="optionE" name="Answers" asp-for="Answers" value=@Model.Question.OptionE /> <a> E. </a><span>@Model.Question.OptionE</span>
                                             </div>
                                             @if (QNO == 10)
                                             {
@@ -110,12 +120,13 @@
                                                 <button class="btn btn-primary">Submit & Next</button>
                                             }
                                         </div>
-                                        
-                                        <div class="center" >
+                                        <br />
+                                        <br />
+                                        <div class="right" >
                                             <div class="ex1">
                                                 @for (int i = 0; i < 50; i++)
                                                 {
-                                                    <a href="@Url.Action("exampage", "examinations", new { @qno = i} )" class="btn btn-primary" style="width: 35px; height:35px; margin-top: 5px;">@(i + 1)</a>
+                                                    <a href="@Url.Action("exampage", "examinations", new { @qno = i} )" class="btn btn-primary" style="width: 35px; height:35px; margin-top: 10px;">@(i + 1)</a>
                                                 }
                                             </div>
                                         </div>
@@ -130,7 +141,7 @@
             </div>
         </div>
     </div>
-</div>
+
     <script>
             var remSeconds = @timeRemaining;
             var secondsCounter = remSeconds % 60;
@@ -158,6 +169,6 @@
     </script>
     <script>
         function ExamPage() {
-            window.location.href = "/result/";
+            window.location.href = "/ExamResult";
         }
     </script>
